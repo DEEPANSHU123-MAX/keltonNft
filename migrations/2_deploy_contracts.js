@@ -1,5 +1,5 @@
-const MYNFT = artifacts.require("NFT");
+const NFT = artifacts.require("NFT");
 
 module.exports = function (deployer) {
-  deployer.deploy(MYNFT,"testURI","Krypto Cat","KC");
+  deployer.deploy(NFT,"testURI","Krypto Cat","KC");
 };

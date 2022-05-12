@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom"
 // import FormData from "form-data";
-import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain"
+import { checkWalletIsConnected, connectWalletHandler , mintNftHandler } from "../components/LoadBlockchain"
 
 const pinataApiKey = "4d37623cdbbfb91c7f0d";
 const pinataSecretApiKey = "5043ec80f9de04cb311185b7026c84769225d2896e3a45e097a1c020d2f07251";
@@ -78,10 +78,11 @@ const Create = () => {
     }
 
 
-    // const mintToken = async (hash, base) => {
-    //     let txn = await mintNftHandler(hash, base);
-    //     return txn;
-    // }
+    const mintToken = async (hash : any , base : any ) => {
+        let txn = await mintNftHandler(hash, base);
+        console.log(txn,"txn mint token")
+        return txn;
+    }
 
 
     const jsonHandler = (data : any) => {
@@ -98,9 +99,12 @@ const Create = () => {
                 data["tokenCreator"] = txn.from.slice(2,);
                 data["currentOwner"] = txn.from.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";
-                axios.post('http://localhost:5000/mintToken', data).then((response) => {
-                })
+                // axios.post('http://localhost:5000/mintToken', data).then((response) => {
+                // })
+                console.log(txn,"txn")
+                
                 setTokenMinted(true);
+                console.log(tokenMinted,"hghghg")
             })
         } catch (error) {
             console.log('Error uploading file: ', error)
@@ -165,6 +169,11 @@ const Create = () => {
                     </Button>
                 </Form>
                 
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+               
             </div>
         )
     }
