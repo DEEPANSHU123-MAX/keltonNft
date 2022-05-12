@@ -30,6 +30,7 @@ interface NftData {
 
 
 const Create = () => {
+    
     const [tokenMinted, setTokenMinted] = useState<boolean>(false);
     const [show, setShow] = useState<boolean>(false);
     let [currentAccount, setCurrentAccount] = useState<null | undefined>(null);
