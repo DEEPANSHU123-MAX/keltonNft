@@ -1,0 +1,29 @@
+.nft-card{
+    margin: 3% 3% ;
+    border-radius: 10px;
+    padding: 0%;
+}
+.nft-card img{
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 0;
+}
+.nft-card p{
+    margin-left: 0%;
+    font-size: 25px;
+    font-weight: bold;
+}
+.nft-card button{
+    border: none;
+    border-radius: 10px;
+    background-color: #116dfa;
+    font-size: 18px;
+    width: fit-content;
+    padding:5px 10px;
+}
+.card-body{
+    border: 2px solid #116dfa;
+    border-top: none;
+    border-radius: 0px 0px 10px 10px;
+}
