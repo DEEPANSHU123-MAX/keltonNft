@@ -1,71 +1,58 @@
 import React from "react";
-import {
-Box,
-Container,
-Row,
-Column,
-FooterLink,
-Heading,
-} from './FooterStyles';
+import "./FooterStyles.css"
 
 const Footer = () => {
 return (
-	<Box>
-	<h1 style={{ color: "green",
-				textAlign: "center",
-				 }}>
-		Nft Market place
-	</h1>
-	<Container>
-		<Row>
-		<Column>
-			<Heading>About Us</Heading>
-			<FooterLink href="#">Aim</FooterLink>
-			<FooterLink href="#">Vision</FooterLink>
-			<FooterLink href="#">Testimonials</FooterLink>
-		</Column>
-		<Column>
-			<Heading>Services</Heading>
-			<FooterLink href="#">Writing</FooterLink>
-			<FooterLink href="#">Internships</FooterLink>
-			<FooterLink href="#">Coding</FooterLink>
-			<FooterLink href="#">Teaching</FooterLink>
-		</Column>
-		
-		<Column>
-			<Heading>Social Media</Heading>
-			<FooterLink href="#">
-			<i className="fab fa-facebook-f">
-				<span style={{ marginLeft: "10px" }}>
-				Facebook
-				</span>
-			</i>
-			</FooterLink>
-			<FooterLink href="#">
-			<i className="fab fa-instagram">
-				<span style={{ marginLeft: "10px" }}>
-				Instagram
-				</span>
-			</i>
-			</FooterLink>
-			<FooterLink href="#">
-			<i className="fab fa-twitter">
-				<span style={{ marginLeft: "10px" }}>
-				Twitter
-				</span>
-			</i>
-			</FooterLink>
-			<FooterLink href="#">
-			<i className="fab fa-youtube">
-				<span style={{ marginLeft: "10px" }}>
-				Youtube
-				</span>
-			</i>
-			</FooterLink>
-		</Column>
-		</Row>
-	</Container>
-	</Box>
-);
-};
+
+
+
+<div>
+<footer className="footer">
+<div className="container py-4">
+						<div className="row gy-4 gx-5">
+							<div className="col-lg-3 col-md-6">
+							
+								<ul className="list-unstyled text-muted">
+									<li><a href="#">Home</a></li>
+									
+									
+								</ul>
+							</div>
+							<div className="col-lg-3 col-md-6">
+								
+								<ul className="list-unstyled text-muted">
+									<li><a href="#">About</a></li>
+									
+								
+								</ul>
+							</div>
+							<div className="col-lg-3 col-md-6">
+								
+								<ul className="list-unstyled text-muted">
+									<li><a href="#">Get started</a></li>
+									
+							
+								</ul>
+							</div>
+							<div className="col-lg-3 col-md-6">
+							
+								<ul className="list-unstyled text-muted">
+								
+									<li><a href="#">FAQ</a></li>
+								</ul>
+									
+							</div>
+						</div>
+					</div>
+</footer>
+
+<br/>
+<br/>
+<br/>
+<br/>
+</div>
+  
+
+)
+}
 export default Footer;

@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-// import contract from '../abis/OpenMarket.json';
+import contract from '../abis/NFT.json';
 import { useNavigate } from "react-router-dom"
 import { ethers } from 'ethers';
+import {address , abi } from '../config'
 
 
 export const checkWalletIsConnected = async () => {
@@ -186,7 +187,7 @@ export const connectWalletHandler = async () => {
 //   }
 // }
 
-export const mintNftHandler = async (tokenURI, baseURI) => {
+export const mintNftHandler = async (tokenURI : string , baseURI : string ) => {
   try {
     const { ethereum } = window;
 
@@ -194,6 +195,7 @@ export const mintNftHandler = async (tokenURI, baseURI) => {
       const provider = new ethers.providers.Web3Provider(ethereum);
       console.log(provider)
       const signer = provider.getSigner();
+      console.log(signer,"signer")
       const nftContract = new ethers.Contract(address, abi, signer);
       console.log(nftContract)
 
@@ -213,3 +215,5 @@ export const mintNftHandler = async (tokenURI, baseURI) => {
     console.log(err);
   }
 }
+
+

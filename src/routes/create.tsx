@@ -4,9 +4,10 @@ import { Form, Button, Modal, Spinner } from "react-bootstrap";
 // import { create } from 'ipfs-http-client'
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom"
-// import FormData from "form-data";
-import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain"
+import { Link } from "react-router-dom";
+import Api from "../Api/api";
+import FormData from "form-data";
+import { checkWalletIsConnected, connectWalletHandler , mintNftHandler } from "../components/LoadBlockchain"
 
 const pinataApiKey = "4d37623cdbbfb91c7f0d";
 const pinataSecretApiKey = "5043ec80f9de04cb311185b7026c84769225d2896e3a45e097a1c020d2f07251";
@@ -17,14 +18,16 @@ const jsonUrl = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
 
 
 
+
 interface NftData {
     itemName: string,
-    description:string,
+    tokenDescription:string,
     url:string|undefined|null,
-    TokenStandard:string,
-    BlockChain:string,
-    tokenCreator:string|null|undefined,
+    tokenStandard:string,
+    blockchain:string,
+    tokencreator:string|null|undefined,
     forSale:boolean
+    tokenPrice:number
 }
 
 
@@ -52,7 +55,7 @@ const Create = () => {
 
          accountChanged();
          
-    }, [currentAccount])
+    }, [currentAccount , jsonCid])
 
 
     const fileHandler = async (e : any) => {
@@ -79,29 +82,35 @@ const Create = () => {
     }
 
 
-    // const mintToken = async (hash, base) => {
-    //     let txn = await mintNftHandler(hash, base);
-    //     return txn;
-    // }
+    const mintToken = async (hash : any , base : any ) => {
+        let txn = await mintNftHandler(hash, base);
+        console.log(txn,"txn mint token")
+        return txn;
+    }
 
 
     const jsonHandler = (data : any) => {
-        const jsonData = JSON.stringify(data);
+       
         try {
-            axios.post(jsonUrl, jsonData, {
+            axios.post(jsonUrl, data, {
                 headers: {
                     pinata_api_key: pinataApiKey,
                     pinata_secret_api_key: pinataSecretApiKey
                 }
             }).then(async (response) => {
                 setJsonCid(response.data.IpfsHash)
-                let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/");
-                data["tokenCreator"] = txn.from.slice(2,);
+                let txn = await mintToken(jsonCid, "https://gateway.pinata.cloud/ipfs/");
+                data["tokencreator"] = txn.from.slice(2,);
                 data["currentOwner"] = txn.from.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";
-                axios.post('http://localhost:5000/mintToken', data).then((response) => {
+                console.log(data);
+                Api.post('/createNft', data).then((response) => {
+                    console.log(response, "resssssssssssssss");
                 })
+                console.log(txn,"txn")
+                
                 setTokenMinted(true);
+                console.log(tokenMinted,"hghghg")
             })
         } catch (error) {
             console.log('Error uploading file: ', error)
@@ -112,11 +121,12 @@ const Create = () => {
         e.preventDefault();
         let data: NftData = {
             itemName:e.target.item.value.trim(),
-            description:e.target.description.value,
+            tokenDescription:e.target.description.value,
+            tokenPrice:0,
             url:fileUrl,
-            TokenStandard:"ERC-721",
-            BlockChain:"Ethereum",
-            tokenCreator:currentAccount,
+            tokenStandard:"ERC-721",
+            blockchain:"Ethereum",
+            tokencreator:currentAccount,
             forSale:false,
     };
        
@@ -166,6 +176,11 @@ const Create = () => {
                     </Button>
                 </Form>
                 
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+               
             </div>
         )
     }
