@@ -9,6 +9,7 @@ import "../styles/myNft.css"
 const MyNFT = () => {
     let [currentAccount, setCurrentAccount] = useState<null | string>(null);
     let [userNft, setUserNft] = useState<null | string[]>(null);
+   
 
 
     useEffect(():any => {
@@ -18,9 +19,11 @@ const MyNFT = () => {
             getUserNFT();
         }
         loader()
+        console.log(currentAccount);
         accountChanged();
     }, [currentAccount]);
 
+    
 
     const connectWalletButton = () => {
         const connectWallet = async () => {

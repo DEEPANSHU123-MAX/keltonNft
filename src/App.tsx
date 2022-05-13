@@ -3,9 +3,9 @@ import {BrowserRouter,Routes,Route} from 'react-router-dom';
 import Header from './components/Header'; 
 import Home from './routes/Home';
 import Create from './routes/create';
-import ShowProfile from './components/Profile';
+import MyProfile from './components/Profile';
 import Footer from './components/Footer';
-
+import Profilesettings from './components/Profilesetting';
 
 
 const AppRouter : React.FC = ()=>(
@@ -19,7 +19,8 @@ const AppRouter : React.FC = ()=>(
                 {/* <Route path="*" element={<NotFoundPage />} /> */}
 
                 
-                <Route path="/profile" element={<ShowProfile/>}/>
+                <Route path="/profile" element={<MyProfile/>}/>
+                <Route path="/editprofile" element={<Profilesettings/>}/>
             </Routes>
             <Footer />
         </div>
