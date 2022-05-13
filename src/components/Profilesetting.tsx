@@ -1,33 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Button } from "react-bootstrap";
 import './profile.css';
-// import axios from "axios";
+import Api from "../Api/api";
 import { checkWalletIsConnected, connectWalletHandler } from "./LoadBlockchain"
 
 
 
-const sendData = async (e : string)  => {
-//     e.preventDefault();
-//     console.log(e.target.name.value)
-//     let data = {}
-//     data['name'] = e.target.name.value;
-//     data['bio'] = e.target.bio.value;
-//     data['email'] = e.target.email.value;
-//     data['insta'] = e.target.ins.value;
-//     data['twitter'] = e.target.twi.value;
-//     data['website'] = e.target.web.value;
-//     data['walletAddress'] = e.target.walletAddress.value.slice(2)
-//     // axios.post('http://localhost:5000/createUser', data).then((response) => {
-//     //     alert("Profile saved")
-//     // })
+const sendData = async (e : any)  => {
+    e.preventDefault();
+    console.log(e.target.name.value)
+    let data  : any = {}
+    data['name'] = e.target.name.value;
+    data['bio'] = e.target.bio.value;
+    data['email'] = e.target.email.value;
+    data['password'] = e.target.pass.value;
+    data['instagram'] = e.target.ins.value;
+    data['twitter'] = e.target.twi.value;
+    data['website'] = e.target.web.value;
+    data['id'] = e.target.walletAddress.value.slice(2)
+    Api.post('/users', data).then((response) => {
+        alert("Profile saved")
+    })
 
 }
 
 
 const Profilesettings = () => {
-    let [currentAccount, setCurrentAccount] = useState(null);
-    let [userNft, setUserNft] = useState(null);
-    let [userData, setUserData] = useState();
+    let [currentAccount, setCurrentAccount] = useState<null | string >();
+    let [userNft, setUserNft] = useState<null | string[] >();
+    let [userData, setUserData] = useState<null | string[] >();
     const connectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
@@ -46,12 +47,12 @@ const Profilesettings = () => {
 
 
     const getUserData = () => {
-        if (currentAccount) {
-            // let account = currentAccount.slice(2,)
-            // axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
-            //     console.log(response.data)
-            //     setUserData(response.data);
-            // })
+        if (currentAccount ) {
+            let id : string = currentAccount.slice(2,)
+            Api.get(`/users/${id}`).then((response) => {
+                console.log(response.data)
+                setUserData(response.data);
+            })
         }
     }
 
@@ -75,6 +76,11 @@ const Profilesettings = () => {
                     <Form.Group className="mb-3" >
                         <Form.Label>Email<span style={{ color: 'red' }} >*</span></Form.Label>
                         <Form.Control type="text" name="email" placeholder="Email " required />
+                    </Form.Group>
+
+                    <Form.Group className="mb-3" >
+                        <Form.Label>Password<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Control type="text" name="pass" placeholder="password " required />
                     </Form.Group>
 
                     <Form.Group className="mb-3" >
