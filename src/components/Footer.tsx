@@ -10,6 +10,7 @@ return (
 <footer className="footer">
 <div className="container py-4">
 						<div className="row gy-4 gx-5">
+
 							<div className="col-lg-3 col-md-6">
 							
 								<ul className="list-unstyled text-muted">
@@ -42,6 +43,7 @@ return (
 								</ul>
 									
 							</div>
+							
 						</div>
 					</div>
 </footer>

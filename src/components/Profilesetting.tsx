@@ -10,14 +10,14 @@ const sendData = async (e : any)  => {
     e.preventDefault();
     console.log(e.target.name.value)
     let data  : any = {}
-    data['name'] = e.target.name.value;
-    data['bio'] = e.target.bio.value;
-    data['email'] = e.target.email.value;
-    data['password'] = e.target.pass.value;
-    data['instagram'] = e.target.ins.value;
-    data['twitter'] = e.target.twi.value;
-    data['website'] = e.target.web.value;
-    data['id'] = e.target.walletAddress.value.slice(2)
+    data['name'] = e.target.name.value ? null : e.target.name.value;
+    data['bio'] = e.target.bio.value ? null : e.target.bio.value;
+    data['email'] = e.target.email.value? null : e.target.email.value;
+    data['password'] = e.target.pass.value? null : e.target.pass.value;
+    data['instagram'] = e.target.ins.value? null : e.target.ins.value;
+    data['twitter'] = e.target.twi.value? null : e.target.twi.value;
+    data['website'] = e.target.web.value? null : e.target.web.value;
+    data['id'] = e.target.walletAddress.value.slice(2)? null : e.target.walletAddress.value.slice(2);
     Api.post('/users', data).then((response) => {
         alert("Profile saved")
     })
@@ -61,10 +61,11 @@ const Profilesettings = () => {
         <div>
 
 
-            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2>{userData ? userData : "Un-named"}</h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span></div>
+            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2>{userData ? userData.name : "Un-named"}</h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span>
+            <span className="text-black-50"><h2>{userData ? userData.email : ""}</h2></span><span></span></div>
 
 
-            <h3 className="text-center">Edit Profile</h3>
+            <h3 className="text-center">{userData?"Edit Profile": "Save Profile Data"}</h3>
 
             <div className='aligncenter'>
                 <Form className="create-page-form" onSubmit={sendData}>

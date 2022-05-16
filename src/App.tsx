@@ -6,6 +6,7 @@ import Create from './routes/create';
 import MyProfile from './components/Profile';
 import Footer from './components/Footer';
 import Profilesettings from './components/Profilesetting';
+import MyNFT from './routes/MyNft';
 
 
 const AppRouter : React.FC = ()=>(
@@ -18,7 +19,7 @@ const AppRouter : React.FC = ()=>(
                 <Route path="/create" element={<Create />}/>
                 {/* <Route path="*" element={<NotFoundPage />} /> */}
 
-                
+                <Route path="/MyNFT" element={<MyNFT/>}/>
                 <Route path="/profile" element={<MyProfile/>}/>
                 <Route path="/editprofile" element={<Profilesettings/>}/>
             </Routes>

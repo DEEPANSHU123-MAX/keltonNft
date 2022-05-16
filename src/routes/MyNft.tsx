@@ -4,7 +4,7 @@ import { checkWalletIsConnected, connectWalletHandler } from "../components/Load
 import axios from "axios";
 import Api from "../Api/api";
 // import AllNFT from './AllNFT';
-import "../styles/myNft.css"
+import "../CSS/myNft.css";
 
 const MyNFT = () => {
     let [currentAccount, setCurrentAccount] = useState<null | string>(null);
@@ -19,7 +19,7 @@ const MyNFT = () => {
             getUserNFT();
         }
         loader()
-        console.log(currentAccount);
+        
         accountChanged();
     }, [currentAccount]);
 
@@ -52,12 +52,13 @@ const MyNFT = () => {
             }
 
             else {
-                Api.get(`/getToken/${account}`).then((response) => {
+                Api.get(`/userNft/${account}`).then((response) => {
                     setUserNft(response.data);
                 })
             }
         }
     }
+    
     
 
     
@@ -105,6 +106,7 @@ const MyNFT = () => {
 
     return (
         <div>
+           
             {currentAccount ? showUserNFT() : connectWalletButton()}
         </div>
     );
