@@ -10,14 +10,14 @@ const sendData = async (e : any)  => {
     e.preventDefault();
     console.log(e.target.name.value)
     let data  : any = {}
-    data['name'] = e.target.name.value ? null : e.target.name.value;
-    data['bio'] = e.target.bio.value ? null : e.target.bio.value;
-    data['email'] = e.target.email.value? null : e.target.email.value;
-    data['password'] = e.target.pass.value? null : e.target.pass.value;
-    data['instagram'] = e.target.ins.value? null : e.target.ins.value;
-    data['twitter'] = e.target.twi.value? null : e.target.twi.value;
-    data['website'] = e.target.web.value? null : e.target.web.value;
-    data['id'] = e.target.walletAddress.value.slice(2)? null : e.target.walletAddress.value.slice(2);
+    data['name'] = !e.target.name.value ? null : e.target.name.value;
+    data['bio'] = !e.target.bio.value ? null : e.target.bio.value;
+    data['email'] = !e.target.email.value? null : e.target.email.value;
+    data['password'] = !e.target.pass.value? null : e.target.pass.value;
+    data['instagram'] = !e.target.ins.value? null : e.target.ins.value;
+    data['twitter'] = !e.target.twi.value? null : e.target.twi.value;
+    data['website'] = !e.target.web.value? null : e.target.web.value;
+    data['id'] = !e.target.walletAddress.value.slice(2)? null : e.target.walletAddress.value.slice(2);
     Api.post('/users', data).then((response) => {
         alert("Profile saved")
     })
