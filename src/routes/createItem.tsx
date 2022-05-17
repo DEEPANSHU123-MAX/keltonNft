@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import Api from "../Api/api";
 import FormData from "form-data";
 import { checkWalletIsConnected, connectWalletHandler , mintNftHandler } from "../components/LoadBlockchain"
+import Create from './createItem';
 
 const pinataApiKey = "4d37623cdbbfb91c7f0d";
 const pinataSecretApiKey = "5043ec80f9de04cb311185b7026c84769225d2896e3a45e097a1c020d2f07251";
@@ -32,7 +33,7 @@ interface NftData {
 
 
 
-const Create = () => {
+const CreateItem = () => {
     
     const [tokenMinted, setTokenMinted] = useState<boolean>(false);
     const [show, setShow] = useState<boolean>(false);
@@ -184,6 +185,10 @@ const Create = () => {
                             The description will be included on the item's detail page underneath its image.
                         </Form.Text>
                     </Form.Group>
+                    <Form.Group className="mb-3" >
+                        <Form.Label>Royalty Fee %<span style={{ color: 'red' }} >*</span></Form.Label>
+                        <Form.Control type="text" name="Royalty" placeholder="Royalty Fee %" required />
+                    </Form.Group>
                     <hr />
                     <Button variant="primary" type="submit" onClick={handleShow}>
                         Create
@@ -198,7 +203,7 @@ const Create = () => {
             </div>
         )
     }
-    const accountChanged : any= async () => {
+     const accountChanged : any= async () => {
         const { ethereum } = window;
 
         if (!ethereum) {
@@ -239,4 +244,4 @@ const Create = () => {
 
 
 
-export default Create;
+export default CreateItem ;
