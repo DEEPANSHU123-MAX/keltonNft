@@ -5,14 +5,15 @@ import { Form, Button, Modal, Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
-import { Link } from "react-router-dom";
+import Api from "../Api/api";
+import { Link , useNavigate } from "react-router-dom";
 
 
 
 interface NftData {
     CollectionName: string,
     CollectionDescription:string,
-    fileUrl:null | undefined|string,
+    url:null | undefined|string,
     
 }
 
@@ -22,6 +23,7 @@ const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 const jsonUrl = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
 
 function CreateCollection() {
+    const navigate = useNavigate();
 
     const [fileUrl, setFileUrl] = useState<null | undefined|string>();
     const[dropValue, setdropValue] = useState<any>()
@@ -51,16 +53,22 @@ function CreateCollection() {
             console.log('Error uploading file: ', error)
         }
     }
+   
 
     const uploadHandler = async (e :any) => {
         e.preventDefault();
         let data: NftData = {
             CollectionName:e.target.item.value.trim(),
             CollectionDescription:e.target.description.value,
-            fileUrl,
+            url:fileUrl,
            
             
     };
+    Api.post('/createCollection', data).then((response) => {
+        console.log(response, "resssssssssssssss");
+    })
+    console.log(data);
+    navigate('/');
        
        
     }
