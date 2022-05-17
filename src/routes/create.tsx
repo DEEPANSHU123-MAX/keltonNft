@@ -36,7 +36,7 @@ const Create = () => {
     
     const [tokenMinted, setTokenMinted] = useState<boolean>(false);
     const [show, setShow] = useState<boolean>(false);
-    let [currentAccount, setCurrentAccount] = useState<null | undefined>(null);
+    let [currentAccount, setCurrentAccount] = useState<any>(null);
     let [fileUrl, setFileUrl] = useState<null | undefined|string>();
     let [jsonCid, setJsonCid] = useState<string>("");
     const handleClose  = () => setShow(false);
@@ -73,7 +73,7 @@ const Create = () => {
             }).then((response) => {
                 console.log("image uploaded")
                 let imageUrl = `https://gateway.pinata.cloud/ipfs/${response.data.IpfsHash}`
-                console.log(imageUrl,"imggggggg")
+                
                 setFileUrl(imageUrl)
             })
         } catch (error) {
@@ -90,8 +90,10 @@ const Create = () => {
 
 
     const jsonHandler = (data : any) => {
+
        
         try {
+            
             axios.post(jsonUrl, data, {
                 headers: {
                     pinata_api_key: pinataApiKey,
@@ -100,8 +102,10 @@ const Create = () => {
             }).then(async (response) => {
                 setJsonCid(response.data.IpfsHash)
                 let txn = await mintToken(jsonCid, "https://gateway.pinata.cloud/ipfs/");
-                data["tokencreator"] = txn.from.slice(2,);
-                data["currentOwner"] = txn.from.slice(2,);
+                console.log(txn.from ,"txn")
+               
+                data["tokencreator"] = currentAccount.slice(2,);
+                data["currentOwner"] = currentAccount.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";
                 console.log(data);
                 Api.post('/createNft', data).then((response) => {
@@ -116,6 +120,16 @@ const Create = () => {
             console.log('Error uploading file: ', error)
         }
     }
+    // "itemName": "string",
+    // "url": "string",
+    // "tokenStandard": "string",
+    // "blockchain": "stri",
+    // "tokencreator": "stideg",
+    // "currentOwner": "strgge",
+    // "previousOwner": "string",
+    // "tokenDescription": "string",
+    // "tokenPrice": "12",
+    // "forSale": "false"
 
     const uploadHandler = async (e :any) => {
         e.preventDefault();

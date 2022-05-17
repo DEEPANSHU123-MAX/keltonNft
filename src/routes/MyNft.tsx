@@ -8,13 +8,14 @@ import "../CSS/myNft.css";
 
 const MyNFT = () => {
     let [currentAccount, setCurrentAccount] = useState<null | string>(null);
-    let [userNft, setUserNft] = useState<null | string[]>(null);
+    let [userNft, setUserNft] = useState<any>();
    
 
 
     useEffect(():any => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
+            
             setCurrentAccount(account);
             getUserNFT();
         }
@@ -41,7 +42,7 @@ const MyNFT = () => {
     }
     const getUserNFT = () => {
         if (currentAccount) {
-            let account:string = currentAccount.slice(2,)
+            let account:any = currentAccount.slice(2,)
 
             const params = new URLSearchParams(window.location.search);
             const searchData = params.get('search')
@@ -52,12 +53,17 @@ const MyNFT = () => {
             }
 
             else {
-                Api.get(`/userNft/${account}`).then((response) => {
-                    setUserNft(response.data);
+                Api.get(`/user/${account}`).then((response) => {
+                    console.log(response.data.Nfts , "ressssssssssss")
+                    setUserNft(response.data.Nfts);
+                    
                 })
             }
         }
     }
+
+
+    
     
     
 
@@ -69,9 +75,10 @@ const MyNFT = () => {
                 <Container >
                     <Row>
                         {userNft.map((nft : any) => {
-                            let link = `/Sellnft/${nft.tokenId}`
+                            
+                            let link = `/Sellnft/${nft.id}`
                             return (
-                                <Card className="nft-card" key={nft.tokenId} style={{ width: '30rem' }}>
+                                <Card className="nft-card" key={nft.id} style={{ width: '30rem' }}>
                                     <Card.Img variant="top" src={nft.url} />
                                     <Card.Body className="card-body">
                                         <Card.Title><p>{nft.itemName}</p></Card.Title>

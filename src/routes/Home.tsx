@@ -2,29 +2,14 @@
 import { Button, Container, Card ,Row, Col } from "react-bootstrap";
 import {Link} from "react-router-dom";
 import React, {useState,useEffect } from "react";
-// import axios from "axios";
-// import {Card,Button,Container,Row} from "react-bootstrap";
+
+
 
 
 const Home = () => {
   let [allNft,setAllNft] = useState([]);
 
 
-   // useEffect(()=>{
-    //   getAllNft();
-    // },[]);
- 
-    // const getAllNft = () => {
-    //   const params = new URLSearchParams(window.location.search);
-    //   const searchData = params.get('search')
-    //   if(searchData ){
-    //     console.log("hello")
-      
-    //     axios.get(`http://localhost:5000/tokenSearch?search=${searchData}`).then((response) => {
-    //     setAllNft(response.data)
-    //   })
-    //   }
-    // }
 
     const ShowNft = ()=>{
       return(
@@ -65,6 +50,7 @@ const Home = () => {
           </Col>
           <Col>
           <button>
+            
             <img  className="home-token" src='/img/home-token.jpg' height={200} width={200} />
             </button>
           </Col>

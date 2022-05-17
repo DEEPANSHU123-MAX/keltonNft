@@ -12,6 +12,8 @@ contract NFT is Ownable, ERC721URIStorage {
     string private baseURI;
     string private baseExtension = ".json";
 
+ 
+
     mapping(uint256 => bool) private _tokenForSale;
     mapping(uint256 => uint256) private _tokenPrice;
 
@@ -23,8 +25,10 @@ contract NFT is Ownable, ERC721URIStorage {
         string memory _initBaseURI,
         string memory tokenName,
         string memory tokenSymbol
+       
     ) ERC721(tokenName, tokenSymbol) {
         setBaseURI(_initBaseURI);
+       
     }
 
     function mint(string memory _tokenURI, string memory _setBaseURI)
@@ -46,6 +50,8 @@ contract NFT is Ownable, ERC721URIStorage {
     //         mint();
     //     }
     // }
+
+   
 
     function setBaseURI(string memory _newBaseURI) internal {
         baseURI = _newBaseURI;
