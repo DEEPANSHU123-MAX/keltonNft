@@ -20,6 +20,7 @@ const sendData = async (e : any)  => {
     data['walletAddress'] = e.target.walletAddress.value.slice(2)?  e.target.walletAddress.value.slice(2) : null;
     Api.post('/user', data).then((response) => {
         alert("Profile saved")
+        window.location = '/profile';
         console.log(response)
     })
 
