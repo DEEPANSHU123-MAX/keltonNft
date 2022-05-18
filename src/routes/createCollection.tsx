@@ -7,13 +7,16 @@ import axios from "axios";
 import FormData from "form-data";
 import Api from "../Api/api";
 import { Link , useNavigate } from "react-router-dom";
+import { checkWalletIsConnected, connectWalletHandler} from "../components/LoadBlockchain";
 
 
 
 interface NftData {
-    CollectionName: string,
-    CollectionDescription:string,
-    url:null | undefined|string,
+    collectionName: string,
+    collectionDescription:string,
+    Url:null | undefined|string,
+    category:string|null,
+    collectionOwner:any,
     
 }
 
@@ -26,7 +29,37 @@ function CreateCollection() {
     const navigate = useNavigate();
 
     const [fileUrl, setFileUrl] = useState<null | undefined|string>();
-    const[dropValue, setdropValue] = useState<any>()
+    const[categoryValue, setCategoryValue] = useState<any>("Art");
+    const [currentAccount, setCurrentAccount] = useState<any>(null);
+
+
+    useEffect(():any=> {
+        const loader = async () => {
+            const account = await checkWalletIsConnected();
+            setCurrentAccount(account);
+            
+        }
+         loader();
+    
+         accountChanged();
+        
+    }, [currentAccount ])
+
+
+    const accountChanged : any= async () => {
+        const { ethereum } = window;
+
+        if (!ethereum) {
+            console.log("Make sure you have Metamask installed!");
+            return;
+        } else {
+            console.log("Wallet exists! We're ready to go!")
+        }
+        ethereum.on("accountsChanged", (accounts:any) => {
+            setCurrentAccount(accounts[0]);
+        })
+
+    }
 
 
 
@@ -54,21 +87,26 @@ function CreateCollection() {
         }
     }
    
+   
 
     const uploadHandler = async (e :any) => {
         e.preventDefault();
         let data: NftData = {
-            CollectionName:e.target.item.value.trim(),
-            CollectionDescription:e.target.description.value,
-            url:fileUrl,
+            collectionName:e.target.item.value.trim(),
+            collectionDescription:e.target.description.value,
+            Url:fileUrl,
+            category:categoryValue,
+            collectionOwner:currentAccount.slice(2,),
+            
            
             
     };
     Api.post('/createCollection', data).then((response) => {
         console.log(response, "resssssssssssssss");
+        navigate(-1);
     })
     console.log(data);
-    navigate('/');
+    // navigate(-1);
        
        
     }
@@ -91,11 +129,12 @@ function CreateCollection() {
         <br/>
         <label>
           Choose category for collection:
-          <select value={dropValue} onChange={(e)=>setdropValue(e.target.value)}>            <option value="grapefruit">Art</option>
-            <option value="lime">sports</option>
-            <option value="coconut">Gaming</option>
-            <option value="mango">photography</option>
-            <option value="mango">Entertainment</option>
+          <select  value={categoryValue} onChange={(e)=>setCategoryValue(e.target.value)}> 
+            <option value="Art">Art</option>          
+            <option value="Sports">Sports</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Photography">Photography</option>
+            <option value="Entertainment">Entertainment</option>
           </select>
         </label>
 

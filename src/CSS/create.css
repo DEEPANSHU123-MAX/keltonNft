@@ -62,6 +62,19 @@ body{
     width: fit-content;
     padding:6px 22px;
 }
+
+.connect-button{
+    background-color: #116dfa;
+    color: white;
+    font-weight: bold;
+    float: center;
+    margin: 2px;
+    border: none;   
+    border-radius: 10px;
+    font-size: 30px; 
+    width: fit-content;
+    padding:6px 22px;
+}
 .spinner{
     margin: 30px auto;
 }
