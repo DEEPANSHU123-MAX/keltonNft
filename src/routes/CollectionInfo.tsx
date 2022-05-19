@@ -1,5 +1,5 @@
 import React from 'react'
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBCardImage, MDBBtn, MDBRipple } from 'mdb-react-ui-kit';
+import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText,  MDBBtn, MDBRipple ,   MDBCardOverlay, MDBCardImage } from 'mdb-react-ui-kit';
 import "../CSS/collectionInfo.css"
 import { useEffect, useState } from "react";
 import Api from "../Api/api";
@@ -12,8 +12,20 @@ import {useParams} from "react-router-dom";
 const CollectionInfo = () => { 
 const [currentAccount, setCurrentAccount] = useState<any>(null);
 const [collectionData, setCollectionData] = useState<null | string[] | string >();
+let { uuid }  = useParams();
 
 
+useEffect(():any=> {
+    const loader = async () => {
+        const account = await checkWalletIsConnected();
+        setCurrentAccount(account);
+        
+    }
+     loader();
+  
+     accountChanged();
+     GetCollectionData()
+  }, [currentAccount ])
 
 const ConnectWalletButton = () => {
   const connectWallet = async () => {
@@ -30,28 +42,18 @@ const ConnectWalletButton = () => {
   )
 }
 
-useEffect(():any=> {
-  const loader = async () => {
-      const account = await checkWalletIsConnected();
-      setCurrentAccount(account);
-      
-  }
-   loader();
 
-   accountChanged();
-   GetCollectionData()
-}, [currentAccount ])
 
 
 const GetCollectionData =  () : any  => {
   if (currentAccount ) {
       let id : string = currentAccount.slice(2,)
       console.log(id , "wallet address user data ")
-      let { uuid }  = useParams();
+      
       console.log(uuid , "params destrucutre")
-      Api.get(`/user/${id}/${uuid}`).then((response) => {
-          console.log(response, "response userdata")
-      setCollectionData(response.data.Collections);
+      Api.get(`/collectionInfo/${uuid}`).then((response) => {
+          console.log(response, "response userdata..........")
+      setCollectionData(response.data);
       
       })
       
@@ -76,53 +78,59 @@ const accountChanged : any= async () => {
 
 const ShowCollectionData  = () => {
   return (
-<div className='card-body'>
+<div >
 
 {collectionData && <div>
     
-    
-    <MDBCard style={{ maxWidth: '60rem' }}>
-      <MDBRipple rippleColor='light' rippleTag='div' className='bg-image hover-overlay'>
-        <MDBCardImage src={collectionData.url} fluid alt='...' />
-        <a>
-          <div className='mask' style={{ backgroundColor: 'rgba(251, 251, 251, 0.15)' }}></div>
-        </a>
-      </MDBRipple>
-      <MDBCardBody>
-        <MDBCardTitle>{collectionData.category}</MDBCardTitle>
-        <MDBCardText>
-          {collectionData.collectionName}
-        </MDBCardText>
-        <MDBCardTitle>{collectionData.description}</MDBCardTitle>
+<MDBCard background='dark' className='text-white'>
+      <MDBCardImage overlay src='https://mdbootstrap.com/img/new/slides/041.webp' alt='...' />
+      
+      <MDBCardOverlay >
+     
+     
+      <div className='card-body'>
+        <MDBCardImage src={collectionData.Url} />
+        </div>
+
+        <p className='white'>Collection Name :- {collectionData.collectionName}</p>
+       
+       <p className='white'>
+        Description :- {collectionData.collectionDescription}
+        </p>
+       
+        <p className='white'> Category :- {collectionData.category} </p>
+        
+      
+        
+        
+        <div className='btn'>
         <MDBBtn href='#'>Edit Collection Info</MDBBtn>
-        <br/>
         <MDBBtn href='#'>Delete Collection Info</MDBBtn>
-      </MDBCardBody>
+        </div>
+      
+     
+      </MDBCardOverlay>
+     
     </MDBCard>
     
-    </div>}
 
     
-    </div>
-
+    </div>}
+</div>
   )
-  }
-
+  
+}
 
   return (
     <div>
     {ConnectWalletButton()}
-    
-  
+    <br/>
+    <br/>
+    <br/>
 {currentAccount ? ShowCollectionData():"First connect your wallet to see your collection"}
 </div>
-)
-  }
+) 
 
+}
 
 export default CollectionInfo;
-
-
-
-
-

@@ -1,14 +1,20 @@
 import React from 'react'
+
 import '../CSS/create.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Modal, Spinner } from "react-bootstrap";
-import { useEffect, useState } from "react";
+
 import axios from "axios";
 import FormData from "form-data";
 import Api from "../Api/api";
 import { Link , useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { checkWalletIsConnected, connectWalletHandler} from "../components/LoadBlockchain";
 
+const pinataApiKey = "4d37623cdbbfb91c7f0d";
+const pinataSecretApiKey = "5043ec80f9de04cb311185b7026c84769225d2896e3a45e097a1c020d2f07251";
+const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
+const jsonUrl = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
 
 
 interface NftData {
@@ -20,16 +26,13 @@ interface NftData {
     
 }
 
-const pinataApiKey = "4d37623cdbbfb91c7f0d";
-const pinataSecretApiKey = "5043ec80f9de04cb311185b7026c84769225d2896e3a45e097a1c020d2f07251";
-const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
-const jsonUrl = 'https://api.pinata.cloud/pinning/pinJSONToIPFS'
-
-function CreateCollection() {
+function EditCollection() {
     const navigate = useNavigate();
 
     const [fileUrl, setFileUrl] = useState<null | undefined|string>();
-    const[categoryValue, setCategoryValue] = useState<any>("Art");
+    const[name , setName] =useState<any>()
+    const[categoryValue , setCategoryValue] =useState<any>("Art")
+    const[discription , setdiscription] =useState<any>()
     const [currentAccount, setCurrentAccount] = useState<any>(null);
 
 
@@ -42,6 +45,13 @@ function CreateCollection() {
          loader();
     
          accountChanged();
+
+         Api.get('/EditCollection', ).then((response) => {
+            console.log(response, "resssssssssssssss");
+
+            navigate(-1);
+        })
+
         
     }, [currentAccount ])
 
@@ -101,7 +111,7 @@ function CreateCollection() {
            
             
     };
-    Api.post('/createCollection', data).then((response) => {
+    Api.patch('/UpdateCollection', data).then((response) => {
         console.log(response, "resssssssssssssss");
         navigate(-1);
     })
@@ -113,7 +123,6 @@ function CreateCollection() {
   return (
     
 <div>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"></link>
     <h1>Create New Collection</h1>
     <Form className="create-page-form" onSubmit={uploadHandler}>
         <Form.Group className="mb-3" >
@@ -125,7 +134,7 @@ function CreateCollection() {
         </Form.Text>
         <Form.Group className="mb-3" >
             <Form.Label>Name<span style={{ color: 'red' }} >*</span></Form.Label>
-            <Form.Control type="text" name="item"  placeholder="Collection name" required />
+            <Form.Control type="text" name="item"  value={name} onChange={(e)=>setName(e.target.value)} placeholder="Collection name" required />
         </Form.Group>
         <br/>
         <label>
@@ -144,7 +153,7 @@ function CreateCollection() {
 
         <Form.Group className="mb-3" >
             <Form.Label>Description</Form.Label>
-            <Form.Control style={{ padding: '10px 10px 50px 10px' }} type="text" name="description" placeholder="Provide a detailed description of your collection" />
+            <Form.Control style={{ padding: '10px 10px 50px 10px' }} type="text" value={discription} onChange={(e)=>setdiscription(e.target.value)} name="description" placeholder="Provide a detailed description of your collection" />
             <Form.Text className="text-muted">
                 Discription for your Nft collection
             </Form.Text>
@@ -165,4 +174,4 @@ function CreateCollection() {
   )
 }
 
-export default CreateCollection;
+export default EditCollection
