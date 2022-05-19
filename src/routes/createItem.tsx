@@ -27,8 +27,10 @@ interface NftData {
     tokenStandard:string,
     blockchain:string,
     tokencreator:string|null|undefined,
-    forSale:boolean
-    tokenPrice:number
+    forSale:boolean,
+    tokenPrice:number,
+    royalityFee:number|string,
+    Currency:number|string
 }
 
 
@@ -39,7 +41,8 @@ const CreateItem = () => {
     const [show, setShow] = useState<boolean>(false);
     let [currentAccount, setCurrentAccount] = useState<any>(null);
     let [fileUrl, setFileUrl] = useState<null | undefined|string>();
-    let [jsonCid, setJsonCid] = useState<string>("");
+    let [jsonCid, setJsonCid] = useState<string>("Ether");
+    const[currencyValue, setcurrencyValue] = useState<any>()
     const handleClose  = () => setShow(false);
     const handleShow = () => setShow(true);
     
@@ -143,6 +146,8 @@ const CreateItem = () => {
             blockchain:"Ethereum",
             tokencreator:currentAccount,
             forSale:false,
+            royalityFee:e.target.Royalty.value,
+            Currency:currencyValue
     };
        
         await jsonHandler(data);
@@ -189,6 +194,16 @@ const CreateItem = () => {
                         <Form.Label>Royalty Fee %<span style={{ color: 'red' }} >*</span></Form.Label>
                         <Form.Control type="text" name="Royalty" placeholder="Royalty Fee %" required />
                     </Form.Group>
+                    <br/>
+                    <label>
+                        Choose currency to create nft:
+                        <select value={currencyValue} onChange={(e)=>setcurrencyValue(e.target.value)}>         
+                            <option value="lime">Ether</option>
+                            <option value="coconut">other</option>
+                           
+                        </select>
+                        </label>
+                        <br/>
                     <hr />
                     <Button variant="primary" type="submit" onClick={handleShow}>
                         Create

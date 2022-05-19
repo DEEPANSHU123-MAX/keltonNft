@@ -2,7 +2,7 @@
 import { Button, Container, Card ,Row, Col } from "react-bootstrap";
 import {Link} from "react-router-dom";
 import React, {useState,useEffect } from "react";
-
+// import Flip from 'react-reveal/Flip';
 
 
 
@@ -35,9 +35,7 @@ const Home = () => {
     const ShowHomePage = ()=>{
       return(
       
-        <div className="home-page">
-      
-     
+      <div className="home-page">
       
       <Container>
         <Row>
@@ -50,8 +48,8 @@ const Home = () => {
           </Col>
           <Col>
           <button>
-            
-            <img  className="home-token" src='/img/home-token.jpg' height={200} width={200} />
+           
+            <img  className="home-token" src='/img/home-token.jpg' height="200" width="500" />
             </button>
           </Col>
         </Row>

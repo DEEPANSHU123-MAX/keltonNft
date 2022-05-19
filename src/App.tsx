@@ -10,6 +10,7 @@ import MyNFT from './routes/MyNft';
 import SellNft from './routes/sellNft';
 import CreateCollection from './routes/createCollection';
 import Create from './components/create';
+import CollectionInfo from './routes/CollectionInfo';
 
 const AppRouter : React.FC = ()=>(
     <BrowserRouter>
@@ -20,8 +21,9 @@ const AppRouter : React.FC = ()=>(
 
                 <Route path="/Create" element={<Create/>}/>
                 {/* <Route path="*" element={<NotFoundPage />} /> */}
-                <Route path="/CreateItem" element={<CreateItem/>}/>
+                <Route path="/CreateItem/:collectionId" element={<CreateItem/>}/>
                 <Route path="/CreateCollection" element={<CreateCollection/>}/>
+                <Route path="/CollectionInfo" element={<CollectionInfo/>}/>
                 <Route path="/Sellnft/:nftId" element={<SellNft />}/>
                 <Route path="/MyNFT" element={<MyNFT/>}/>
                 <Route path="/profile" element={<MyProfile/>}/>

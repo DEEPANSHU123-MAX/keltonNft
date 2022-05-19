@@ -4,15 +4,18 @@
     font-size: 25px;
     margin:0 auto;
 }
+body{
+    background-color: antiquewhite;
+}
 .create-page h1{
     font-weight: bold;
     margin: 30px 26%;
 }
 .create-page-form{
     margin: 20px 25%;
-    background-color: white;
+    background-color:white;
     display: block;
-    max-width: 80%;
+    max-width: 200%;
     height: max-content;
 }
 .create-page-form input{
