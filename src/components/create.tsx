@@ -87,7 +87,7 @@ const Create = () => {
                         let link = `/CreateItem/${nft.collectionOwner}`
                         return (
                             <Card className="nft-card" key={nft.id} style={{ width: '30rem' }}>
-                              <Card.Link style={{ textDecoration: 'none' }} href={`/`}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
+                              <Card.Link style={{ textDecoration: 'none' }} href={`/CollectionInfo/${nft.collectionOwner}/${nft.uuid}`}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
                                 <Card.Body className="card-body">
                                     <Card.Title><p>{nft.collectionName}</p></Card.Title>
                                     <Card.Title><p>{nft.category}</p></Card.Title>
