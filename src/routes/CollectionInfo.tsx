@@ -117,6 +117,7 @@ const ShowCollectionData  = () => {
 {currentAccount ? ShowCollectionData():"First connect your wallet to see your collection"}
 </div>
 )
+  }
 
 
 export default CollectionInfo;

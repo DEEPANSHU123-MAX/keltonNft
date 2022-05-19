@@ -20,6 +20,7 @@ const sendData = async (e : any)  => {
     data['walletAddress'] = e.target.walletAddress.value.slice(2)?  e.target.walletAddress.value.slice(2) : null;
     Api.post('/user', data).then((response) => {
         alert("Profile saved")
+
         window.location = '/profile';
         console.log(response)
     })
@@ -46,6 +47,27 @@ const Profilesettings = () => {
         )
     }
 
+    const updateData = async (e : any) => {
+        e.preventDefault();
+        console.log(e.target.name.value)
+       
+        
+        let account = e.target.walletAddress.value.slice(2)
+        let data  : any = {}
+        data['name'] = (e.target.name.value == ''?userData.name : e.target.name.value);
+        data['bio'] = (e.target.bio.value == ''?userData.bio : e.target.bio.value);
+        data['email'] =(e.target.email.value == ''?userData.email : e.target.email.value);
+        data['instagram'] = (e.target.ins.value == ''?userData.instagram : e.target.ins.value);
+        data['twitter'] = (e.target.twi.value == ''?userData.twitter : e.target.twi.value);
+        data['password'] = (e.target.pass.value == ''?userData.password : e.target.pass.value);
+        data['website'] = (e.target.web.value == ''?userData.website : e.target.web.value);
+        data['walletAddress'] = (account == '' ?userData.walletAddress:account );
+        Api.patch('/user',data).then((response) => {
+            alert("Profile updated Successfully")
+            window.location = '/profile';
+                })
+        console.log(data)
+    }
 
 
     const getUserData = () => {
@@ -62,7 +84,7 @@ const Profilesettings = () => {
     const showProfilesettings = () => (
 
         <div>
-
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"></link>
 
             <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2>{userData ? userData.name : "Un-named"}</h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span>
             <span className="text-black-50"><h2>{userData ? userData.email : ""}</h2></span><span></span></div>
@@ -71,7 +93,7 @@ const Profilesettings = () => {
             <h3 className="text-center">{userData?"Edit Profile": "Save Profile Data"}</h3>
 
             <div className='aligncenter'>
-                <Form className="create-page-form" color='white'  onSubmit={sendData}>
+                <Form className="create-page-form" color='white'  onSubmit={ userData ? updateData : sendData}>
                     <Form.Group className="mb-3" >
                         <Form.Label>Name</Form.Label>
                         <Form.Control type="text" name="name" placeholder="User name"  required />
