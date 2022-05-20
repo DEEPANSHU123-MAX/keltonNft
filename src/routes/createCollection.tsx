@@ -101,6 +101,9 @@ function CreateCollection() {
            
             
     };
+
+
+    
     Api.post('/createCollection', data).then((response) => {
         console.log(response, "resssssssssssssss");
         navigate(-1);

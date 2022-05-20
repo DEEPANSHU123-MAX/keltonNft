@@ -4,7 +4,7 @@ import { Form, Button, Modal, Spinner } from "react-bootstrap";
 // import { create } from 'ipfs-http-client'
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { Link  , useParams, useNavigate} from "react-router-dom";
 import Api from "../Api/api";
 import FormData from "form-data";
 import { checkWalletIsConnected, connectWalletHandler , mintNftHandler } from "../components/LoadBlockchain"
@@ -29,22 +29,28 @@ interface NftData {
     tokencreator:string|null|undefined,
     forSale:boolean,
     tokenPrice:number,
-    royalityFee:number|string,
+    royaltyFee:number|string,
     Currency:number|string
 }
 
 
 
 const CreateItem = () => {
+    let{uuid} = useParams();
+
+    let navigate = useNavigate();
     
     const [tokenMinted, setTokenMinted] = useState<boolean>(false);
     const [show, setShow] = useState<boolean>(false);
     let [currentAccount, setCurrentAccount] = useState<any>(null);
     let [fileUrl, setFileUrl] = useState<null | undefined|string>();
-    let [jsonCid, setJsonCid] = useState<string>("Ether");
-    const[currencyValue, setcurrencyValue] = useState<any>()
+    let [jsonCid, setJsonCid] = useState<string>("");
+    const[currencyValue, setcurrencyValue] = useState<any>("ETH")
     const handleClose  = () => setShow(false);
     const handleShow = () => setShow(true);
+
+
+    
     
 
 
@@ -86,8 +92,8 @@ const CreateItem = () => {
     }
 
 
-    const mintToken = async (hash : any , base : any ) => {
-        let txn = await mintNftHandler(hash, base);
+    const mintToken = async (hash : any , base : any , royalityFee :any , tokenCreator:any ) => {
+        let txn = await mintNftHandler(hash, base ,  royalityFee ,tokenCreator  );
         console.log(txn,"txn mint token")
         return txn;
     }
@@ -105,17 +111,21 @@ const CreateItem = () => {
                 }
             }).then(async (response) => {
                 setJsonCid(response.data.IpfsHash)
-                let txn = await mintToken(jsonCid, "https://gateway.pinata.cloud/ipfs/");
-                console.log(txn.from ,"txn")
+               
                
                 data["tokencreator"] = currentAccount.slice(2,);
                 data["currentOwner"] = currentAccount.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";
-                console.log(data);
-                Api.post('/createNft', data).then((response) => {
+
+                let txn = await mintToken(jsonCid, "https://gateway.pinata.cloud/ipfs/",data.royalityFee ,data.tokencreator );
+                // console.log(txn , "txnnn")
+                
+                console.log(data , "dataaaaaa");
+                Api.post(`/createNft/${uuid}`, data).then((response) => {
                     console.log(response, "resssssssssssssss");
+                    navigate(-1)
                 })
-                console.log(txn,"txn")
+                // console.log(txn,"txn")
                 
                 setTokenMinted(true);
                 console.log(tokenMinted,"hghghg")
@@ -124,16 +134,7 @@ const CreateItem = () => {
             console.log('Error uploading file: ', error)
         }
     }
-    // "itemName": "string",
-    // "url": "string",
-    // "tokenStandard": "string",
-    // "blockchain": "stri",
-    // "tokencreator": "stideg",
-    // "currentOwner": "strgge",
-    // "previousOwner": "string",
-    // "tokenDescription": "string",
-    // "tokenPrice": "12",
-    // "forSale": "false"
+   
 
     const uploadHandler = async (e :any) => {
         e.preventDefault();
@@ -146,7 +147,7 @@ const CreateItem = () => {
             blockchain:"Ethereum",
             tokencreator:currentAccount,
             forSale:false,
-            royalityFee:e.target.Royalty.value,
+            royaltyFee:parseInt(e.target.Royalty.value),
             Currency:currencyValue
     };
        

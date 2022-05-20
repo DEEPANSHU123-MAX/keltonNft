@@ -187,7 +187,7 @@ export const sellTokenHandler = async (tokenId : any, price : any) => {
   }
 }
 
-export const mintNftHandler = async (tokenURI : string , baseURI : string ) => {
+export const mintNftHandler = async (tokenURI : string , baseURI : string ,  royalityFee:any , tokenCreator :any  ) => {
   try {
     const { ethereum } = window;
 
@@ -200,7 +200,8 @@ export const mintNftHandler = async (tokenURI : string , baseURI : string ) => {
       console.log(nftContract)
 
       console.log("Initialize payment");
-      let nftTxn = await nftContract.mint(tokenURI, baseURI);
+      let nftTxn = await nftContract.mint(tokenURI, baseURI ,royalityFee ,tokenCreator );
+      console.log(nftTxn , "nftttttttt")
 
       console.log("Mining... please wait");
       await nftTxn.wait();
