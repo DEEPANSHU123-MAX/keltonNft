@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import {Card,Button,Container,Row} from "react-bootstrap"
+import Api from "../Api/api";
 // import axios from "axios";
 // import AllNFT from './AllNFT';
 import './profile.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain"
 const MyProfile = () => {
     let [currentAccount, setCurrentAccount] = useState(null);
@@ -37,32 +40,23 @@ const MyProfile = () => {
     }
 
     const getUserData = () => {
-        if (currentAccount) {
-            // let account = currentAccount.slice(2,)
-            // axios.get(`http://localhost:5000/getUser/${account}`).then((response) => {
-            //     if(response.data.length > 0){
-            //         setUserData(response.data);
-            //     }
-            // })
+        if (currentAccount ) {
+            let id : string = currentAccount.slice(2,)
+            console.log(id , "wallet address user data ")
+            Api.get(`/user/${id}`).then((response) => {
+                console.log(response, "response userdata")
+                setUserData(response.data);
+            })
         }
-
     }
-
     const showProfile = () => (
-        <div>
-            <div className="aligncenter">
+        <div>          
+<div className="aligncenter">
                 <h1>Profile</h1>
             </div>
-            <br />
-            <br /><br />
-            <div className="d-flex justify-content-center">
-                <div className="card-body little-profile text-center">
-                    <div className="pro-img"><img src="https://i.imgur.com/RqGUtoW.png" alt="user" /></div>
-                    <h3> {userData ? userData :"Unnamed"}</h3>
-                    <h3 className="m-b-0 font-light">{currentAccount}</h3>
-                    <h3 className="m-b-0 font-light">{userData ? userData :"Email"}</h3>
-                </div>
-            </div>
+            <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src="https://i.imgur.com/RqGUtoW.png" width="150" /><span className="font-weight-bold"><h2>{userData ? userData.name : "Un-named"}</h2></span><span className="text-black-50"><h2>{currentAccount}</h2></span><span></span>
+            <span className="text-black-50"><h2>{userData ? userData.email : ""}</h2></span><span></span></div>
+
             <div className="box">
                 <div className="smallbox">
                     <div className="align">

@@ -10,6 +10,7 @@ import {address , abi } from '../config'
 
 export const deployContract = async (contractName : string , contractSymbol : string) => {
 
+  
   let _commission =10;
   let _commission_reciever ='0x4049f50Bb416D45b75Bd0c88CDE8E7FA62c7C316'
   let Base_uri ="test uri";
