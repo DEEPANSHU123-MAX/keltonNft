@@ -7,7 +7,7 @@ import axios from "axios";
 import FormData from "form-data";
 import Api from "../Api/api";
 import { Link , useNavigate } from "react-router-dom";
-import { checkWalletIsConnected, connectWalletHandler} from "../components/LoadBlockchain";
+import { checkWalletIsConnected, connectWalletHandler , deployContract} from "../components/LoadBlockchain";
 
 
 
@@ -17,6 +17,8 @@ interface NftData {
     Url:null | undefined|string,
     category:string|null,
     collectionOwner:any,
+    contractName:string,
+    contractSymbol:string,
     
 }
 
@@ -97,13 +99,20 @@ function CreateCollection() {
             Url:fileUrl,
             category:categoryValue,
             collectionOwner:currentAccount.slice(2,),
+            contractName:e.target.contractName.value,
+            contractSymbol:e.target.contractSymbol.value,
             
            
-            
-    };
+          
+    }; 
+
+    const contractTxn = await deployContract(data.contractName , data.contractSymbol);
+
+    console.log(contractTxn , "contractTxnnnnnnnnnnnnnn");
 
 
-    
+
+
     Api.post('/createCollection', data).then((response) => {
         console.log(response, "resssssssssssssss");
         navigate(-1);
@@ -126,7 +135,17 @@ function CreateCollection() {
             <span style={{ color: 'red' }} >*</span>Required fields
         </Form.Text>
         <Form.Group className="mb-3" >
-            <Form.Label>Name<span style={{ color: 'red' }} >*</span></Form.Label>
+            <Form.Label>Contract Name<span style={{ color: 'red' }} >*</span></Form.Label>
+            <Form.Control type="text" name="contractName"  placeholder="Collection name" required />
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
+            <Form.Label>Contract Symbol<span style={{ color: 'red' }} >*</span></Form.Label>
+            <Form.Control type="text" name="contractSymbol"  placeholder="Collection name" required />
+        </Form.Group>
+
+        <Form.Group className="mb-3" >
+            <Form.Label> Collection Name<span style={{ color: 'red' }} >*</span></Form.Label>
             <Form.Control type="text" name="item"  placeholder="Collection name" required />
         </Form.Group>
         <br/>
