@@ -133,4 +133,5 @@ const ShowCollectionData  = () => {
 
 }
 
+
 export default CollectionInfo;

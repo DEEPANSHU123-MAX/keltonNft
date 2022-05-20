@@ -21,7 +21,7 @@ const AppRouter : React.FC = ()=>(
 
                 <Route path="/Create" element={<Create/>}/>
                 {/* <Route path="*" element={<NotFoundPage />} /> */}
-                <Route path="/CreateItem/:collectionId" element={<CreateItem/>}/>
+                <Route path="/CreateItem/:uuid" element={<CreateItem/>}/>
                 <Route path="/CreateCollection" element={<CreateCollection/>}/>
                 <Route path="/CollectionInfo/:uuid" element={<CollectionInfo/>}/>
                 <Route path="/Sellnft/:nftId" element={<SellNft />}/>

@@ -84,7 +84,7 @@ const Create = () => {
                 <Row>
                     {collectionData.map((nft : any) => {
                         
-                        let link = `/CreateItem/${nft.collectionOwner}`
+                        let link = `/CreateItem/${nft.uuid}`
                         return (
                             <Card className="nft-card" key={nft.id} style={{ width: '30rem' }}>
                               <Card.Link style={{ textDecoration: 'none' }} href={`/CollectionInfo/${nft.uuid}`}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
