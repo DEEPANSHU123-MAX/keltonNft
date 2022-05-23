@@ -36,6 +36,10 @@ const Profilesettings = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
             setCurrentAccount(account)
+            Api.get(`/login/${account}`).then((response) => {
+                localStorage.setItem("token" , response.data.token)
+              
+            })
         }
         return (
             <div>
@@ -52,7 +56,7 @@ const Profilesettings = () => {
         console.log(e.target.name.value)
        
         
-        let account = e.target.walletAddress.value.slice(2)
+        let account = e.target.walletAddress.value
         let data  : any = {}
         data['name'] = (e.target.name.value == ''?userData.name : e.target.name.value);
         data['bio'] = (e.target.bio.value == ''?userData.bio : e.target.bio.value);
@@ -62,7 +66,7 @@ const Profilesettings = () => {
         data['password'] = (e.target.pass.value == ''?userData.password : e.target.pass.value);
         data['website'] = (e.target.web.value == ''?userData.website : e.target.web.value);
         data['walletAddress'] = (account == '' ?userData.walletAddress:account );
-        Api.patch('/user',data).then((response) => {
+        Api.patch(`/editUser/${userData.walletAddress}`,data).then((response) => {
             alert("Profile updated Successfully")
             window.location = '/profile';
                 })
@@ -72,11 +76,12 @@ const Profilesettings = () => {
 
     const getUserData = () => {
         if (currentAccount ) {
-            let id : string = currentAccount.slice(2,)
+            let id : string = currentAccount;
             console.log(id , "wallet address user data ")
             Api.get(`/user/${id}`).then((response) => {
                 console.log(response, "response userdata")
                 setUserData(response.data);
+                
             })
         }
     }
