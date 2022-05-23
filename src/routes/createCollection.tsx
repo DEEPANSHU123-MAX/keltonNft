@@ -105,6 +105,7 @@ function CreateCollection() {
            
           
     }; 
+    console.log(data , "dataaaaaa")
 
     const contractTxn = await deployContract(data.contractName , data.contractSymbol);
 

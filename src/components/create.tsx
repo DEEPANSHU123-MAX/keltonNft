@@ -24,12 +24,16 @@ const Create = () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
             
+            
         }
          loader();
     
          accountChanged();
          GetCollectionData()
     }, [currentAccount ])
+
+   
+
     
     const ConnectWalletButton = () => {
         const connectWallet = async () => {
@@ -58,7 +62,7 @@ const Create = () => {
             
         }
     }
-    console.log(collectionData , "colllectttttttt")
+    // console.log(collectionData , "colllectttttttt")
 
     const accountChanged : any= async () => {
         const { ethereum } = window;
@@ -74,6 +78,7 @@ const Create = () => {
         })
 
     }
+
 
      const ShowCollectionData  = () => {
        return(
