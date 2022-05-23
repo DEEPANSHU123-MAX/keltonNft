@@ -19,6 +19,7 @@ interface NftData {
     collectionOwner:any,
     contractName:string,
     contractSymbol:string,
+    contractAddress : string
     
 }
 
@@ -102,22 +103,26 @@ function CreateCollection() {
             contractName:e.target.contractName.value,
             contractSymbol:e.target.contractSymbol.value,
             
+            
            
           
     }; 
 
-    const contractTxn = await deployContract(data.contractName , data.contractSymbol);
+    const contractTxn =  deployContract(data.contractName , data.contractSymbol).then()
+    {
+        console.log(contractTxn , "contractTxnnnnnnnnnnnnnn");
 
-    console.log(contractTxn , "contractTxnnnnnnnnnnnnnn");
+         
+         
 
+        Api.post('/createCollection', data).then((response) => {
+            console.log(response, "resssssssssssssss");
+            navigate(-1);
+        })
+        console.log(data);
+    }
 
-
-
-    Api.post('/createCollection', data).then((response) => {
-        console.log(response, "resssssssssssssss");
-        navigate(-1);
-    })
-    console.log(data);
+   
     // navigate(-1);
        
        
