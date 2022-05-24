@@ -51,10 +51,6 @@ const CreateItem = () => {
 
 
     
-    
-
-
-    
 
     useEffect(():any=> {
         const loader = async () => {

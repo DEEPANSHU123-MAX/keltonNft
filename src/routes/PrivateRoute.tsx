@@ -14,7 +14,7 @@ export default ({ children }: Props) => {
   useEffect((): any => {
     (async () => {
       const account = await checkWalletIsConnected();
-      console.log(account, "accccccc");
+    
       setCurrentAccount(account);
       setInitialLoader(false);
     })();

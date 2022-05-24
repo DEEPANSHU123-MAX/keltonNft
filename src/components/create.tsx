@@ -38,6 +38,11 @@ const Create = () => {
     const ConnectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
+            Api.get(`/login/${account}`).then((response) => {
+                localStorage.setItem("token" , response.data.token)
+              
+            })
+            
             console.log(account);
             setCurrentAccount(account)
         }
@@ -52,11 +57,11 @@ const Create = () => {
 
     const GetCollectionData =  () : any  => {
         if (currentAccount ) {
-            let id : string = currentAccount.slice(2,)
-            console.log(id , "wallet address user data ")
-            Api.get(`/user/${id}`).then((response) => {
-                console.log(response, "response userdata")
-            setCollectionData(response.data.Collections);
+            
+           
+            Api.get(`/collectionInfo/${currentAccount}`).then((response) => {
+                console.log(response.data, "response userdata")
+            setCollectionData(response.data);
             
             })
             
