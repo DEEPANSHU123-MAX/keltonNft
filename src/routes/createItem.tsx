@@ -51,10 +51,6 @@ const CreateItem = () => {
 
 
     
-    
-
-
-    
 
     useEffect(():any=> {
         const loader = async () => {
@@ -117,11 +113,14 @@ const CreateItem = () => {
                 data["currentOwner"] = currentAccount.slice(2,);
                 data["previousOwner"] = "0000000000000000000000000000000000000000";
 
-                let txn = await mintToken(jsonCid, "https://gateway.pinata.cloud/ipfs/",data.royalityFee ,data.tokencreator );
+                console.log(data , "dataaaaaa");
+
+                let txn = await mintToken(jsonCid, "https://gateway.pinata.cloud/ipfs/" ,data.royaltyFee ,data.tokencreator );
+                console.log(txn , "-------")
                 // console.log(txn , "txnnn")
                 
-                console.log(data , "dataaaaaa");
-                Api.post(`/createNft/${uuid}`, data).then((response) => {
+                
+                Api.post(`/createNft/${uuid}/${currentAccount}`, data).then((response) => {
                     console.log(response, "resssssssssssssss");
                     navigate(-1)
                 })

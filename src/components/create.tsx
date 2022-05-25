@@ -10,6 +10,8 @@ import Api from "../Api/api";
 import { checkWalletIsConnected, connectWalletHandler} from "../components/LoadBlockchain";
 
 
+
+
 const Create = () => {
     
     // const [show, setShow] = useState<boolean>(false);
@@ -24,16 +26,25 @@ const Create = () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
             
+            
         }
          loader();
     
          accountChanged();
          GetCollectionData()
     }, [currentAccount ])
+
+   
+
     
     const ConnectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
+            Api.get(`/login/${account}`).then((response) => {
+                localStorage.setItem("token" , response.data.token)
+              
+            })
+            
             console.log(account);
             setCurrentAccount(account)
             Api.get(`/login/${account}`).then((response) => {
@@ -50,19 +61,19 @@ const Create = () => {
         )
     }
 
-    const GetCollectionData =  () : any  => {
+    const GetCollectionData =  () : any|string  => {
         if (currentAccount ) {
-            let id : string = currentAccount.slice(2,)
-            console.log(id , "wallet address user data ")
-            Api.get(`/user/${id}`).then((response) => {
-                console.log(response, "response userdata")
-            setCollectionData(response.data.Collections);
+            
+           
+            Api.get(`/collections/${currentAccount}`).then((response) => {
+                console.log(response.data, "response userdata")
+            setCollectionData(response.data);
             
             })
             
         }
     }
-    console.log(collectionData , "colllectttttttt")
+    // console.log(collectionData , "colllectttttttt")
 
     const accountChanged : any= async () => {
         const { ethereum } = window;
@@ -79,6 +90,7 @@ const Create = () => {
 
     }
 
+
      const ShowCollectionData  = () => {
        return(
         <div>
@@ -88,9 +100,9 @@ const Create = () => {
                 <Row>
                     {collectionData.map((nft : any) => {
                         
-                        let link = `/CreateItem/${nft.uuid}`
+                        let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}`
                         return (
-                            <Card className="nft-card" key={nft.id} style={{ width: '30rem' }}>
+                            <Card className="nft-card" key={nft.id} style={{ width: '35rem' }}>
                               <Card.Link style={{ textDecoration: 'none' }} href={`/CollectionInfo/${nft.uuid}`}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
                                 <Card.Body className="card-body">
                                     <Card.Title><p>{nft.collectionName}</p></Card.Title>
