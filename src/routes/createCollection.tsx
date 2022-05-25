@@ -116,7 +116,7 @@ function CreateCollection() {
             collectionDescription: e.target.description.value,
             Url: fileUrl,
             category: categoryValue,
-            collectionOwner: currentAccount.slice(2,),
+            collectionOwner: currentAccount,
             contractName: e.target.contractName.value,
             contractSymbol: e.target.contractSymbol.value,
 
@@ -132,7 +132,7 @@ function CreateCollection() {
 
 
 
-            Api.post('/createCollection', data).then((response) => {
+            Api.post(`/createCollection/${currentAccount}`, data).then((response) => {
                 console.log(response, "resssssssssssssss");
                 navigate(-1);
             })

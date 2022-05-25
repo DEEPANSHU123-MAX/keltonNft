@@ -7,7 +7,7 @@ import { Form, Button, Modal, Spinner } from "react-bootstrap";
 import axios from "axios";
 import FormData from "form-data";
 import Api from "../Api/api";
-import { Link , useNavigate } from "react-router-dom";
+import { Link , useNavigate , useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { checkWalletIsConnected, connectWalletHandler} from "../components/LoadBlockchain";
 
@@ -28,12 +28,15 @@ interface NftData {
 
 function EditCollection() {
     const navigate = useNavigate();
+    const{uuid ,collectionOwner} =useParams();
+    
 
-    const [fileUrl, setFileUrl] = useState<null | undefined|string>();
+    const [fileUrl, setFileUrl] = useState<File>();
     const[name , setName] =useState<any>()
     const[categoryValue , setCategoryValue] =useState<any>("Art")
     const[discription , setdiscription] =useState<any>()
     const [currentAccount, setCurrentAccount] = useState<any>(null);
+    // const[collectionData , setCollectionData] = useState<any>();
 
 
     useEffect(():any=> {
@@ -45,15 +48,34 @@ function EditCollection() {
          loader();
     
          accountChanged();
+         
 
-         Api.get('/EditCollection', ).then((response) => {
-            console.log(response, "resssssssssssssss");
+         Api.get(`/collectionInfo/${uuid}`).then((response)=>{
+            setFileUrl(response.data[0].Url);
+            setName(response.data[0].collectionName);
+            setCategoryValue(response.data[0].category);
+            setdiscription(response.data[0].collectionDescription)
+           
+           });
 
-            navigate(-1);
-        })
+           
+
 
         
-    }, [currentAccount ])
+    },[currentAccount ])
+
+    
+
+
+
+    
+
+
+    // useEffect(() => {
+    //     console.log("i am working")
+    //     console.log(collectionData,"collledecedencsdcnsdncksdncsdkncsdi")
+       
+    //   },[collectionData]);
 
 
     const accountChanged : any= async () => {
@@ -74,7 +96,10 @@ function EditCollection() {
 
 
     const fileHandler = async (e : any) => {
+
+        
         const file = e.target.files[0];
+
         let data = new FormData();
         data.append('file', file)
        
@@ -118,28 +143,39 @@ function EditCollection() {
     console.log(data);
     // navigate(-1);
        
+
+    //file url is coming in string from data base first we have to convert it into file 
        
     }
   return (
-    
-<div>
-    <h1>Create New Collection</h1>
+      <div>
+           <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+        crossorigin="anonymous"
+      ></link>
+
+
+      
+     
+    <h1>Edit your Collection</h1>
     <Form className="create-page-form" onSubmit={uploadHandler}>
         <Form.Group className="mb-3" >
             <Form.Label>Image, Video, Audio, or 3D Model<span style={{ color: 'red' }} >*</span></Form.Label>
-            <Form.Control type="file" placeholder="Collection Image" onChange={fileHandler} />
+            <Form.Control type="file"   placeholder="Collection Image" onChange={fileHandler} />
         </Form.Group>
         <Form.Text className="text-muted">
             <span style={{ color: 'red' }} >*</span>Required fields
         </Form.Text>
         <Form.Group className="mb-3" >
             <Form.Label>Name<span style={{ color: 'red' }} >*</span></Form.Label>
-            <Form.Control type="text" name="item"  value={name} onChange={(e)=>setName(e.target.value)} placeholder="Collection name" required />
+            <Form.Control type="text" name="item"  value={name || ''} onChange={(e)=>setName(e.target.value)} placeholder="Collection name" required />
         </Form.Group>
         <br/>
         <label>
           Choose category for collection:
-          <select  value={categoryValue} onChange={(e)=>setCategoryValue(e.target.value)}> 
+          <select  value={categoryValue || ''} onChange={(e)=>setCategoryValue(e.target.value)}> 
             <option value="Art">Art</option>          
             <option value="Sports">Sports</option>
             <option value="Gaming">Gaming</option>
@@ -153,7 +189,7 @@ function EditCollection() {
 
         <Form.Group className="mb-3" >
             <Form.Label>Description</Form.Label>
-            <Form.Control style={{ padding: '10px 10px 50px 10px' }} type="text" value={discription} onChange={(e)=>setdiscription(e.target.value)} name="description" placeholder="Provide a detailed description of your collection" />
+            <Form.Control style={{ padding: '10px 10px 50px 10px' }} type="text" value={discription || ""} onChange={(e)=>setdiscription(e.target.value)} name="description" placeholder="Provide a detailed description of your collection" />
             <Form.Text className="text-muted">
                 Discription for your Nft collection
             </Form.Text>
@@ -170,6 +206,7 @@ function EditCollection() {
     <br/>
     <br/>
    
+
 </div>
   )
 }
