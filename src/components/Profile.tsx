@@ -41,7 +41,7 @@ const MyProfile = () => {
 
     const getUserData = () => {
         if (currentAccount ) {
-            let id : string = currentAccount.slice(2,)
+            let id : string = currentAccount;
             console.log(id , "wallet address user data ")
             Api.get(`/user/${id}`).then((response) => {
                 console.log(response, "response userdata")

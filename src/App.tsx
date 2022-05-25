@@ -12,6 +12,8 @@ import CreateCollection from './routes/createCollection';
 import Create from './components/create';
 import CollectionInfo from './routes/CollectionInfo';
 import PrivateRoute from './routes/PrivateRoute';
+import EditCollection from './routes/EditCollection';
+import Form from '../../smart-contracts/Form';
 
 const AppRouter : React.FC = ()=>(
     <BrowserRouter>
@@ -21,9 +23,10 @@ const AppRouter : React.FC = ()=>(
                 <Route path="/" element={<Home/>} />
 
                 <Route path="/Create" element={<Create/>}/>
-                {/* <Route path="*" element={<NotFoundPage />} /> */}
-                <Route path="/CreateItem/:uuid" element={<CreateItem/>}/>
+               
+                <Route path="/CreateItem/:uuid/:collectionOwner" element={<CreateItem/>}/>
                 <Route path="/CreateCollection" element={<CreateCollection/>}/>
+                <Route path="/EditCollection/:uuid/:collectionOwner" element={<EditCollection/>}/>
                 <Route path="/CollectionInfo/:uuid" element={<CollectionInfo/>}/>
                 <Route path="/Sellnft/:nftId" element={<SellNft />}/>
                 <Route path="/MyNFT" element={<PrivateRoute><MyNFT/></PrivateRoute>}/>
