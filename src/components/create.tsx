@@ -36,6 +36,10 @@ const Create = () => {
             let account = await connectWalletHandler();
             console.log(account);
             setCurrentAccount(account)
+            Api.get(`/login/${account}`).then((response) => {
+                localStorage.setItem("token" , response.data.token)
+              
+            })
         }
         return (
             <div>
