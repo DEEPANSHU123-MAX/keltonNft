@@ -1,5 +1,6 @@
 import React from "react";
 import '../CSS/create.css';
+
 import { Form, Button, Modal, Spinner } from "react-bootstrap";
 // import { create } from 'ipfs-http-client'
 import { useEffect, useState } from "react";
@@ -9,6 +10,7 @@ import Api from "../Api/api";
 import FormData from "form-data";
 import { checkWalletIsConnected, connectWalletHandler , mintNftHandler } from "../components/LoadBlockchain"
 import Create from './createItem';
+import FormComponent from "../components/forms/createItemForm";
 
 const pinataApiKey = "4d37623cdbbfb91c7f0d";
 const pinataSecretApiKey = "5043ec80f9de04cb311185b7026c84769225d2896e3a45e097a1c020d2f07251";
@@ -64,8 +66,9 @@ const CreateItem = () => {
     }, [currentAccount , jsonCid])
 
 
-    const fileHandler = async (e : any) => {
-        const file = e.target.files[0];
+    const fileHandler = async ( file:any) => {
+        console.log(file, "imageeeee");
+        
        
         let data = new FormData();
         data.append('file', file)
@@ -85,7 +88,9 @@ const CreateItem = () => {
         } catch (error) {
             console.log('Error uploading file: ', error)
         }
+        
     }
+
 
 
     const mintToken = async (hash : any , base : any , royalityFee :any , tokenCreator:any ) => {
@@ -135,20 +140,24 @@ const CreateItem = () => {
     }
    
 
-    const uploadHandler = async (e :any) => {
-        e.preventDefault();
+    const uploadHandler = async (res:any, e:any) => {
+        console.log(res ,"dataaaa");
+        handleShow();
+        
+       
         let data: NftData = {
-            itemName:e.target.item.value.trim(),
-            tokenDescription:e.target.description.value,
+            itemName:res.Name,
+            tokenDescription:res.Discription,
             tokenPrice:0,
             url:fileUrl,
             tokenStandard:"ERC-721",
             blockchain:"Ethereum",
             tokencreator:currentAccount,
             forSale:false,
-            royaltyFee:parseInt(e.target.Royalty.value),
-            Currency:currencyValue
+            royaltyFee:res.RoyalityFee,
+            Currency:parseInt(res.select)
     };
+    console.log(data,"ressssssssssssssssss")
        
         await jsonHandler(data);
     }
@@ -170,51 +179,14 @@ const CreateItem = () => {
     const createNft = () => {
         return (
             <div >
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"></link>
-                <h1>Create new Item</h1>
-                <Form className="create-page-form" onSubmit={uploadHandler}>
-                    <Form.Group className="mb-3" >
-                        <Form.Label>Image, Video, Audio, or 3D Model<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="file" placeholder="File" onChange={fileHandler} />
-                    </Form.Group>
-                    <Form.Text className="text-muted">
-                        <span style={{ color: 'red' }} >*</span>Required fields
-                    </Form.Text>
-                    <Form.Group className="mb-3" >
-                        <Form.Label>Name<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="item" placeholder="Item name" required />
-                    </Form.Group>
-                    <Form.Group className="mb-3" >
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control style={{ padding: '10px 10px 50px 10px' }} type="text" name="description" placeholder="Provide a detailed description of your item" />
-                        <Form.Text className="text-muted">
-                            The description will be included on the item's detail page underneath its image.
-                        </Form.Text>
-                    </Form.Group>
-                    <Form.Group className="mb-3" >
-                        <Form.Label>Royalty Fee %<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="Royalty" placeholder="Royalty Fee %" required />
-                    </Form.Group>
-                    <br/>
-                    <label>
-                        Choose currency to create nft:
-                        <select value={currencyValue} onChange={(e)=>setcurrencyValue(e.target.value)}>         
-                            <option value="lime">Ether</option>
-                            <option value="coconut">other</option>
-                           
-                        </select>
-                        </label>
-                        <br/>
-                    <hr />
-                    <Button variant="primary" type="submit" onClick={handleShow}>
-                        Create
-                    </Button>
-                </Form>
-                
-                <br/>
-                <br/>
-                <br/>
-                <br/>
+                <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+        crossorigin="anonymous"
+      ></link>
+               
+              <FormComponent uploadHandler={uploadHandler} fileHandler={fileHandler} handleShow ={handleShow}/>
                
             </div>
         )
