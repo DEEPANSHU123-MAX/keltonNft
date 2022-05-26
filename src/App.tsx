@@ -13,7 +13,7 @@ import Create from './components/create';
 import CollectionInfo from './routes/CollectionInfo';
 import PrivateRoute from './routes/PrivateRoute';
 import EditCollection from './routes/EditCollection';
-import Form from '../../smart-contracts/Form';
+import form from './components/forms/createItemForm';
 
 const AppRouter : React.FC = ()=>(
     <BrowserRouter>

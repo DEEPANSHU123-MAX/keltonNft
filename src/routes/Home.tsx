@@ -41,7 +41,7 @@ const Home = () => {
         <Row>
           <Col>
             <h1>Discover, collect, and sell extraordinary NFTs </h1>
-            <p>OpenMarket is the our first and largest NFT marketplace</p>
+            <p className="new-data">OpenMarket is the our first and largest NFT marketplace</p>
             <Link to="/AllNFT"><Button className="button" variant="primary">Explore</Button></Link>
             <Link to="/create"><Button className="button" variant="outline-primary">Create</Button></Link>
             

@@ -131,13 +131,14 @@ function EditCollection() {
             collectionDescription:e.target.description.value,
             Url:fileUrl,
             category:categoryValue,
-            collectionOwner:currentAccount.slice(2,),
+            collectionOwner:currentAccount,
             
            
             
     };
-    Api.patch('/UpdateCollection', data).then((response) => {
+    Api.patch(`/collection/${uuid}/${currentAccount}`, data).then((response) => {
         console.log(response, "resssssssssssssss");
+        
         navigate(-1);
     })
     console.log(data);

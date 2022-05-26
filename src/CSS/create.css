@@ -52,7 +52,7 @@ body{
 }
 .connect-wallet-button{
     background-color: #116dfa;
-    color: white;
+    color:black;
     font-weight: bold;
     float: right;
     margin: 2px;
@@ -65,7 +65,7 @@ body{
 
 .connect-button{
     background-color: #116dfa;
-    color: white;
+    color:black;
     font-weight: bold;
     float: center;
     margin: 2px;

@@ -62,10 +62,12 @@ function CreateCollection() {
   };
 
   const fileHandler = async (e: any) => {
+      console.log(e.target.files[0]);
     const file = e.target.files[0];
     let data = new FormData();
+    console.log(data,"data")
     data.append("file", file);
-
+    
     try {
       axios
         .post(url, data, {
@@ -115,86 +117,6 @@ function CreateCollection() {
     console.log(data);
   };
 
-<<<<<<< HEAD
-
-
-
-    const ShowCollectionForm = () => {
-        return (
-            <div>
-                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous"></link>
-                <h1>Create New Collection</h1>
-                <Form className="create-page-form" onSubmit={uploadHandler}>
-                    <Form.Group className="mb-3" >
-                        <Form.Label>Image, Video, Audio, or 3D Model<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="file" placeholder="Collection Image" onChange={fileHandler} />
-                    </Form.Group>
-                    <Form.Text className="text-muted">
-                        <span style={{ color: 'red' }} >*</span>Required fields
-                    </Form.Text>
-                    <Form.Group className="mb-3" >
-                        <Form.Label>Contract Name<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="contractName" placeholder="Collection name" required />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" >
-                        <Form.Label>Contract Symbol<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="contractSymbol" placeholder="Collection name" required />
-                    </Form.Group>
-
-                    <Form.Group className="mb-3" >
-                        <Form.Label> Collection Name<span style={{ color: 'red' }} >*</span></Form.Label>
-                        <Form.Control type="text" name="item" placeholder="Collection name" required />
-                    </Form.Group>
-                    <br />
-                    <label>
-                        Choose category for collection:
-                        <select value={categoryValue} onChange={(e) => setCategoryValue(e.target.value)}>
-                            <option value="Art">Art</option>
-                            <option value="Sports">Sports</option>
-                            <option value="Gaming">Gaming</option>
-                            <option value="Photography">Photography</option>
-                            <option value="Entertainment">Entertainment</option>
-                        </select>
-                    </label>
-
-                    <br />
-                    <br />
-
-                    <Form.Group className="mb-3" >
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control style={{ padding: '10px 10px 50px 10px' }} type="text" name="description" placeholder="Provide a detailed description of your collection" />
-                        <Form.Text className="text-muted">
-                            Discription for your Nft collection
-                        </Form.Text>
-                    </Form.Group>
-                    <hr />
-                    <Button variant="primary" type="submit" >
-                        Create Collection
-                    </Button>
-                </Form>
-
-
-                <br />
-                <br />
-                <br />
-                <br />
-
-            </div>
-        )
-    }
-
-    return (
-        <div>
-            {ConnectWalletButton()}
-            <br />
-            <br />
-            <br />
-            {currentAccount ? ShowCollectionForm() : "First connect your wallet to see your collection"}
-        </div>
-    )
-
-=======
   return (
     <div>
       <link
@@ -297,7 +219,6 @@ function CreateCollection() {
       <br />
     </div>
   );
->>>>>>> 3003178a32582fabbf96da4a09227f5dcee657cd
 }
 
 export default CreateCollection;
