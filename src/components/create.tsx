@@ -7,44 +7,44 @@ import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Api from "../Api/api";
-import { checkWalletIsConnected, connectWalletHandler} from "../components/LoadBlockchain";
+import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain";
 
 
 
 
 const Create = () => {
-    
+
     // const [show, setShow] = useState<boolean>(false);
     const [currentAccount, setCurrentAccount] = useState<any>(null);
-    const [collectionData, setCollectionData] = useState<null | string[] >();
-    
+    const [collectionData, setCollectionData] = useState<null | string[]>();
 
 
 
-    useEffect(():any=> {
+
+    useEffect((): any => {
         const loader = async () => {
             const account = await checkWalletIsConnected();
             setCurrentAccount(account);
-            
-            
+
+
         }
-         loader();
-    
-         accountChanged();
-         GetCollectionData()
-    }, [currentAccount ])
+        loader();
 
-   
+        accountChanged();
+        GetCollectionData()
+    }, [currentAccount])
 
-    
+
+
+
     const ConnectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
             Api.get(`/login/${account}`).then((response) => {
-                localStorage.setItem("token" , response.data.token)
-              
+                localStorage.setItem("token", response.data.token)
+
             })
-            
+
             console.log(account);
             setCurrentAccount(account)
         }
@@ -57,21 +57,21 @@ const Create = () => {
         )
     }
 
-    const GetCollectionData =  () : any|string  => {
-        if (currentAccount ) {
-            
-           
+    const GetCollectionData = (): any | string => {
+        if (currentAccount) {
+
+
             Api.get(`/collections/${currentAccount}`).then((response) => {
                 console.log(response.data, "response userdata")
-            setCollectionData(response.data);
-            
+                setCollectionData(response.data);
+
             })
-            
+
         }
     }
     // console.log(collectionData , "colllectttttttt")
 
-    const accountChanged : any= async () => {
+    const accountChanged: any = async () => {
         const { ethereum } = window;
 
         if (!ethereum) {
@@ -80,69 +80,63 @@ const Create = () => {
         } else {
             console.log("Wallet exists! We're ready to go!")
         }
-        ethereum.on("accountsChanged", (accounts:any) => {
+        ethereum.on("accountsChanged", (accounts: any) => {
             setCurrentAccount(accounts[0]);
         })
 
     }
 
 
-     const ShowCollectionData  = () => {
-       return(
-        <div>
-        <h1> Your collection</h1>
-        {collectionData && <div>
-            <Container >
-                <Row>
-                    {collectionData.map((nft : any) => {
-                        
-                        let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}`
-                        return (
-                            <Card className="nft-card" key={nft.id} style={{ width: '35rem' }}>
-                              <Card.Link style={{ textDecoration: 'none' }} href={`/CollectionInfo/${nft.uuid}`}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
-                                <Card.Body className="card-body">
-                                    <Card.Title><p>{nft.collectionName}</p></Card.Title>
-                                    <Card.Title><p>{nft.category}</p></Card.Title>
-                                    <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Add Item</Button></Card.Link>
-                                </Card.Body>
-                            </Card>
-                        )
-                    })}
-                </Row>
-            </Container>
+    const ShowCollectionData = () => {
+        return (
+            <div>
+                <h1> Your collection</h1>
+                {collectionData && <div>
+                    <Container >
+                        <Row>
+                            {collectionData.map((nft: any) => {
 
-        </div>}
+                                let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}`
+                                return (
+                                    <Card className="nft-card" key={nft.id} style={{ width: '35rem' }}>
+                                        <Card.Link style={{ textDecoration: 'none' }} href={`/CollectionInfo/${nft.uuid}`}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
+                                        <Card.Body className="card-body">
+                                            <Card.Title><p>{nft.collectionName}</p></Card.Title>
+                                            <Card.Title><p>{nft.category}</p></Card.Title>
+                                            <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Add Item</Button></Card.Link>
+                                        </Card.Body>
+                                    </Card>
+                                )
+                            })}
+                        </Row>
+                    </Container>
 
-    </div>
-       )
+                </div>}
 
-     }
+            </div>
+        )
 
-   
-    
+    }
+
+
+
     return (
         <div>
-        {ConnectWalletButton()}
-        
-        {currentAccount ?  <Link to="/createCollection">
-      <Button  className='connect-button' >
-             Create New collection
-        
-         </Button> 
-    </Link>
-    : ""}
+            {ConnectWalletButton()}
+
+            {currentAccount ? <Link to="/createCollection">
+                <Button className='connect-button' >
+                    Create New collection
+                </Button>
+            </Link>
+                : ""}
 
 
-    {currentAccount ? ShowCollectionData():"First connect your wallet to see your collection"}
-    </div>
+            {currentAccount ? ShowCollectionData() : "First connect your wallet to see your collection"}
+        </div>
     )
-   
-
-
-    
-
 
 
 }
 
-export default Create ;
+export default Create;

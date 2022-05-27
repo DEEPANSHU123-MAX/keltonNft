@@ -1,5 +1,5 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
+import React from 'react';
+import * as ReactDOM from 'react-dom/client';
 import AppRouter from './App'
 // import FormComponent from './components/Form'
 // import './App.css'
