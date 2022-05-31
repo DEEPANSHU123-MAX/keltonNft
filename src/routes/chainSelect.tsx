@@ -113,7 +113,7 @@ const changeNetworkRinkeyby = async ({ networkName, setError  }:Props) => {
 
   const networkChanged = (chainId : any) => {
     console.log({ chainId });
-    Navigate(`/CreateCollection/${chainId}`)
+    // Navigate(`/CreateCollection/${chainId}`)
   };
 
   useEffect(() => {

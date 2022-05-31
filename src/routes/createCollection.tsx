@@ -22,7 +22,7 @@ interface NftData {
   contractName: string;
   contractSymbol: string;
   contractAddress: string;
-  chainId:any;
+
 }
 
 const pinataApiKey = "4d37623cdbbfb91c7f0d";
@@ -55,6 +55,7 @@ function CreateCollection() {
   };
 
   useEffect(() => {
+      console.log("i am working")
     window.ethereum.on("chainChanged", networkChanged);
 
     return () => {
@@ -119,14 +120,14 @@ function CreateCollection() {
       contractName: e.target.contractName.value,
       contractSymbol: e.target.contractSymbol.value,
       contractAddress: contractTxn.address,
-      chainId:chainId
+      
     };
 
     console.log(contractTxn.address, "contractTxnnnnnnnnnnnnnn");
 
-    Api.post(`/createCollection/${currentAccount}`, data).then((response) => {
+    Api.post(`/createCollection/${currentAccount}/${chainId}`, data).then((response) => {
       console.log(response, "resssssssssssssss");
-      Navigate("/Create");
+      Navigate(`/Create/${chainId}`);
     });
     console.log(data);
   };
@@ -139,11 +140,11 @@ function CreateCollection() {
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
       ></link>
-      <h1>Create New Collection</h1>
+      <h1>Create New collection</h1>
       <Form className="create-page-form" onSubmit={uploadHandler}>
         <Form.Group className="mb-3">
           <Form.Label>
-            Image, Video, Audio, or 3D Model
+            Image, Audio, or 3D Model
             <span style={{ color: "red" }}>*</span>
           </Form.Label>
           <Form.Control
