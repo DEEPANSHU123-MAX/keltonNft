@@ -21,6 +21,21 @@ const Create = () => {
 
 
 
+
+    const networkChanged = (chainId : any) => {
+        console.log({ chainId });
+        // Navigate(`/CreateCollection/${chainId}`)
+      };
+    
+      useEffect(() => {
+        window.ethereum.on("chainChanged", networkChanged);
+    
+        return () => {
+          window.ethereum.removeListener("chainChanged", networkChanged);
+        };
+      }, []);
+
+
     useEffect(():any=> {
         const loader = async () => {
             const account = await checkWalletIsConnected();
@@ -40,7 +55,7 @@ const Create = () => {
     const ConnectWalletButton = () => {
         const connectWallet = async () => {
             let account = await connectWalletHandler();
-            Api.get(`/login/${account}`).then((response) => {
+            Api.get(`/login/${account}`, { mode: 'cors' }).then((response) => {
                 localStorage.setItem("token" , response.data.token)
               
             })
@@ -128,7 +143,7 @@ const Create = () => {
         <div>
         {ConnectWalletButton()}
         
-        {currentAccount ?  <Link to="/createCollection">
+        {currentAccount ?  <Link to="/chainSelect">
       <Button  className='connect-button' >
              Create New collection
         

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import FormData from "form-data";
 import Api from "../Api/api";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate , useParams } from "react-router-dom";
 import {
   checkWalletIsConnected,
   connectWalletHandler,
@@ -22,6 +22,7 @@ interface NftData {
   contractName: string;
   contractSymbol: string;
   contractAddress: string;
+  chainId:any;
 }
 
 const pinataApiKey = "4d37623cdbbfb91c7f0d";
@@ -31,7 +32,8 @@ const url = `https://api.pinata.cloud/pinning/pinFileToIPFS`;
 const jsonUrl = "https://api.pinata.cloud/pinning/pinJSONToIPFS";
 
 function CreateCollection() {
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
+  const{chainId} = useParams();
 
   const [fileUrl, setFileUrl] = useState<null | undefined | string>();
   const [categoryValue, setCategoryValue] = useState<any>("Art");
@@ -46,6 +48,19 @@ function CreateCollection() {
 
     accountChanged();
   }, [currentAccount]);
+
+  const networkChanged = (chainId : any) => {
+    console.log({ chainId });
+    Navigate(`/CreateCollection/${chainId}`)
+  };
+
+  useEffect(() => {
+    window.ethereum.on("chainChanged", networkChanged);
+
+    return () => {
+      window.ethereum.removeListener("chainChanged", networkChanged);
+    };
+  }, []);
 
   const accountChanged: any = async () => {
     const { ethereum } = window;
@@ -106,13 +121,14 @@ function CreateCollection() {
       contractName: e.target.contractName.value,
       contractSymbol: e.target.contractSymbol.value,
       contractAddress: contractTxn.address,
+      chainId:chainId
     };
 
     console.log(contractTxn.address, "contractTxnnnnnnnnnnnnnn");
 
     Api.post(`/createCollection/${currentAccount}`, data).then((response) => {
       console.log(response, "resssssssssssssss");
-      navigate(-1);
+      Navigate("/Create");
     });
     console.log(data);
   };
