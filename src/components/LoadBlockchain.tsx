@@ -5,6 +5,9 @@ import { ethers } from "ethers";
 import fs from "fs";
 import { address, abi, Byte_code } from "../config";
 import { ContractFactory } from "ethers";
+import Api from "../Api/api";
+import Cookies from "js-cookie";
+
 // const { BN, constants, expectEvent, expectRevert, balance, send, ether } = require("@openzeppelin/test-helpers");
 
 
@@ -75,6 +78,20 @@ export const connectWalletHandler = async () => {
   try {
     const accounts = await ethereum.request({ method: "eth_requestAccounts" });
     console.log("Found an account! Address: ", accounts[0]);
+
+
+    let expiryTime = new Date(new Date().getTime() + 200 * 1000);
+     
+    Api.get(`/login/${accounts[0]}`).then((response) => {
+     console.log("inside login")
+
+      const { accessToken, refreshToken } = response.data;
+
+
+      Cookies.set("access", accessToken , {expires:expiryTime});
+      Cookies.set("refresh", refreshToken ,{expires:7});
+    
+  })
 
     return accounts[0];
   } catch (err) {

@@ -47,21 +47,23 @@ const CollectionInfo = () => {
 
 
 
-    const GetCollectionData = (): any => {
-        if (currentAccount) {
-            let id: string = currentAccount.slice(2,)
-            console.log(id, "wallet address user data ")
+const GetCollectionData =  () : any  => {
+  if (currentAccount ) {
+      let id : string = currentAccount.slice(2,)
+      console.log(id , "wallet address user data ")
+      
+      console.log(uuid , "params destrucutre")
+      Api.get(`/collectionInfo/${uuid}`).then((response) => {
+          console.log(response.data[0], "response userdata..........")
+      setCollectionData(response.data[0]);
+      setNftData(response.data[0].Nfts)
+      
+      })
+      
+  }
+}
+console.log(collectionData , "colllectttttttt")
 
-            console.log(uuid, "params destrucutre")
-            Api.get(`/collectionInfo/${uuid}`).then((response) => {
-                console.log(response.data[0], "response userdata..........")
-                setCollectionData(response.data[0]);
-                setNftData(response.data.Nfts)
-            })
-
-        }
-    }
-    console.log(collectionData, "colllectttttttt")
 
     const accountChanged: any = async () => {
         const { ethereum } = window;
@@ -160,22 +162,60 @@ const CollectionInfo = () => {
     //     }
     // }
 
-       
 
+   const ShowNftData = () => {
     return (
         <div>
-            {ConnectWalletButton()}
-            <br />
-            <br />
-            <br />
-            {currentAccount ? ShowCollectionData() : "First connect your wallet to see your collection"}
-            {currentAccount ? ShowNftData() : "First create collection"}
-            
-        </div>
+            <h1> NFTS</h1>
+            {nftData && <div>
+                <Container >
+                    <Row>
+                        {nftData.map((nft: any) => {
+                            console.log(nft,"deeeer")
 
+                            // let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}`
+                            return (
+                                <Card className="nft-card" key={nft.id} style={{ width: '35rem' }}>
+                                      <div className='card-body'>
+                            <img src={nft.url} />
+                        </div>
+
+                                    <Card.Link style={{ textDecoration: 'none' }} href={link}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
+                                    <Card.Body className="card-body">
+                                        <Card.Title><p>{nft.itemName}</p></Card.Title>
+                                        <Card.Title><p>{nft.category}</p></Card.Title>
+                                        <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Add Item</Button></Card.Link>
+                                    </Card.Body>
+                                </Card>
+                            )
+                        })}
+                    </Row>
+                </Container>
+
+            </div>}
+
+        </div>
     )
 
 }
+
+return (
+    <div>
+        {ConnectWalletButton()}
+        <br />
+        <br />
+        <br />
+        {currentAccount ? ShowCollectionData() : "First connect your wallet to see your collection"}
+        {currentAccount ? ShowNftData() : "First create collection"}
+        
+    </div>
+
+)
+
+}
+
+
+
 
 
 export default CollectionInfo;

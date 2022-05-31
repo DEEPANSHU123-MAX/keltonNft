@@ -16,7 +16,7 @@ const Create = () => {
     
     // const [show, setShow] = useState<boolean>(false);
     const [currentAccount, setCurrentAccount] = useState<any>(null);
-    const [collectionData, setCollectionData] = useState<null | string[] >();
+    const [collectionData, setCollectionData] = useState<null | string[] >([]);
     
 
 
@@ -53,13 +53,12 @@ const Create = () => {
 
     
     const ConnectWalletButton = () => {
+       
         const connectWallet = async () => {
             let account = await connectWalletHandler();
-            Api.get(`/login/${account}`, { mode: 'cors' }).then((response) => {
-                localStorage.setItem("token" , response.data.token)
-              
-            })
-            
+    
+
+           
             console.log(account);
             setCurrentAccount(account)
             Api.get(`/login/${account}`).then((response) => {
