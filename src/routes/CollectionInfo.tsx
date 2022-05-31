@@ -5,14 +5,15 @@ import { useEffect, useState } from "react";
 import Api from "../Api/api";
 import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain";
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
-
+import "../App.css"
 import { useParams } from "react-router-dom";
 
 
 const CollectionInfo = () => {
     const [currentAccount, setCurrentAccount] = useState<any>(null);
-    const [collectionData, setCollectionData] =useState<null | string[]>();
-     const [nftData, setNftData] = useState<null | string[]>();
+    const [collectionData, setCollectionData] =useState<null | string[]>([]);
+     const [nftData, setNftData] =useState<null | string[]>([]);
+    
     let { uuid } = useParams();
 
 
@@ -26,6 +27,7 @@ const CollectionInfo = () => {
 
         accountChanged();
         GetCollectionData()
+       
        
     }, [currentAccount])
 
@@ -54,8 +56,10 @@ const CollectionInfo = () => {
 
             console.log(uuid, "params destrucutre")
             Api.get(`/collectionInfo/${uuid}`).then((response) => {
-                console.log(response.data[0], "response userdata..........")
+                console.log(response.data[0].Nfts, "response userdata..........")
+                 
                 setCollectionData(response.data[0]);
+                setNftData(response.data[0].Nfts)
 
             })
 
@@ -84,14 +88,14 @@ const CollectionInfo = () => {
 
                 {collectionData && <div>
 
-                    <MDBCard background='dark' className='text-white'>
-                        <MDBCardImage overlay src='https://mdbootstrap.com/img/new/slides/041.webp' alt='...' />
+                    <MDBCard >
+                        {/* <MDBCardImage overlay src='https://mdbootstrap.com/img/new/slides/041.webp' alt='...' /> */}
 
-                        <MDBCardOverlay >
+                      
 
 
                             <div className='card-body'>
-                                <MDBCardImage src={collectionData.Url} />
+                                <MDBCardImage src={collectionData.Url } className="bg" />
                             </div>
 
                             <p className='white'>Collection Name :- {collectionData.collectionName}</p>
@@ -102,75 +106,57 @@ const CollectionInfo = () => {
 
                             <p className='white'> Category :- {collectionData.category} </p>
 
-
-
+                    </MDBCard>
 
                             <div className='btn'>
                                 <MDBBtn href={`/EditCollection/${collectionData.uuid}/${currentAccount}`}>Edit Collection Info</MDBBtn>
                                 <MDBBtn href='#'>Delete Collection Info</MDBBtn>
                             </div>
 
+                </div>
+                  }
 
-                        </MDBCardOverlay>
-
-                    </MDBCard>
-
-
-
-                </div>}
+                  
             </div>
         )
 
     }
 
-    //  const GetNftData = (): any | string => {
-    //     if (currentAccount) {
-
-
-    //         Api.get(`/nft/${uuid}`).then((response) => {
-    //             console.log(response.data, "response userdata")
-    //             setNftData(response.data);
-
-    //         })
-
-    //     }
-    // }
-
-       const ShowNftData = () => {
-        return (
-            <div>
-                <h1> NFTS</h1>
-                {nftData && <div>
+   const showNftData = ()=>{
+       return (
+           <div>
+                 {nftData && <div>
                     <Container >
                         <Row>
-                            {nftData.map((nft: any) => {
-                                console.log(nft,"deeeer")
-
-                                // let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}`
-                                return (
+                              {nftData.map((nft: any) => {
+                           
+                                  return(
+                               
+                               
                                     <Card className="nft-card" key={nft.id} style={{ width: '35rem' }}>
-                                          <div className='card-body'>
-                                <MDBCardImage src={nft.url} />
-                            </div>
-
-                                        <Card.Link style={{ textDecoration: 'none' }} href={link}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
+                                        <Card.Link style={{ textDecoration: 'none' }} > <Card.Img variant="top" src={nft.url} /></Card.Link>
                                         <Card.Body className="card-body">
                                             <Card.Title><p>{nft.itemName}</p></Card.Title>
-                                            <Card.Title><p>{nft.category}</p></Card.Title>
-                                            <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Add Item</Button></Card.Link>
+                                            <Card.Title><p>{nft.tokenDescription}</p></Card.Title>
+                                            {/* <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Add Item</Button></Card.Link> */}
                                         </Card.Body>
                                     </Card>
-                                )
-                            })}
+                                        )
+
+                              })}
+                        
+                           
                         </Row>
                     </Container>
 
                 </div>}
 
-            </div>
-        )
 
-    }
+           </div>
+       )
+   }
+
+    
 
     return (
         <div>
@@ -179,7 +165,7 @@ const CollectionInfo = () => {
             <br />
             <br />
             {currentAccount ? ShowCollectionData() : "First connect your wallet to see your collection"}
-            {currentAccount ? ShowNftData() : "First create collection"}
+            {currentAccount ? showNftData() : "First connect your wallet to see your collection"}
             
         </div>
 

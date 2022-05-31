@@ -18,7 +18,6 @@ interface NftData {
   collectionDescription: string;
   Url: null | undefined | string;
   category: string | null;
-  chainId : number ;
   collectionOwner: any;
   contractName: string;
   contractSymbol: string;
@@ -101,7 +100,6 @@ function CreateCollection() {
       collectionDescription: e.target.description.value,
       Url: fileUrl,
       category: categoryValue,
-      chainId : 1,
       collectionOwner: currentAccount,
       contractName: e.target.contractName.value,
       contractSymbol: e.target.contractSymbol.value,
