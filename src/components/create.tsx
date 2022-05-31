@@ -61,10 +61,7 @@ const Create = () => {
            
             console.log(account);
             setCurrentAccount(account)
-            Api.get(`/login/${account}`).then((response) => {
-                localStorage.setItem("token" , response.data.token)
-              
-            })
+          
         }
         return (
             <div>
@@ -108,8 +105,8 @@ const Create = () => {
      const ShowCollectionData  = () => {
        return(
         <div>
-        <h1> Your collection</h1>
-        {collectionData && <div>
+        {collectionData ? 
+        <div>
             <Container >
                 <Row>
                     {collectionData.map((nft : any) => {
@@ -128,8 +125,8 @@ const Create = () => {
                     })}
                 </Row>
             </Container>
-
-        </div>}
+            </div> : <h1>Please create your collection first</h1>}
+        
 
     </div>
        )

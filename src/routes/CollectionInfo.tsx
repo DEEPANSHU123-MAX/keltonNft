@@ -45,7 +45,14 @@ const CollectionInfo = () => {
     }
 
 
-
+    const DeleteCollection  =  () : any  => {
+      Api.delete(`/collection/${uuid}/${currentAccount}`).then((response) => {
+        
+        console.log(response, "resssssssssssssss");
+        alert("Collection is deleted");
+        window.location = '/create';
+    })
+    }
 
 const GetCollectionData =  () : any  => {
   if (currentAccount ) {
@@ -79,11 +86,12 @@ console.log(collectionData , "colllectttttttt")
     }
 
     const ShowCollectionData = () => {
+      
         return (
             <div >
 
                 {collectionData && <div >
-
+                  
                 <div className='card-body'>
                                 <img src={collectionData.Url} />
                             
@@ -97,7 +105,7 @@ console.log(collectionData , "colllectttttttt")
                             <p className='text'> Category:- {collectionData.category} <br/></p>
 
                             <Button className='btn-1' href={`/EditCollection/${collectionData.uuid}/${currentAccount}`}>Edit Collection Info</Button>
-                            <Button className='btn-1' href='#'>Delete Collection Info</Button>
+                            <Button className='btn-1' onClick={DeleteCollection}>  Delete   Collection   Info</Button>
                                
 
                             </div>
@@ -106,11 +114,11 @@ console.log(collectionData , "colllectttttttt")
                            
 
                 </div>}
-                <Button className='btn-2' href='#'> Add Item to collection</Button>
+                <Button className='btn-2' href={`/CreateItem/${uuid}/${currentAccount}`}> Add Item to collection</Button>
                 <div>
             {nftData ? 
             <div>
-              <h1> NFTS</h1>
+              <h1> NFTs in this collection </h1>
                 <Container >
                     <Row>
                         {nftData.map((nft: any) => {
@@ -142,19 +150,7 @@ console.log(collectionData , "colllectttttttt")
 
     }
 
-    //  const GetNftData = (): any | string => {
-    //     if (currentAccount) {
-
-
-    //         Api.get(`/nft/${uuid}`).then((response) => {
-    //             console.log(response.data, "response userdata")
-    //             setNftData(response.data);
-
-    //         })
-
-    //     }
-    // }
-
+   
 
    
         

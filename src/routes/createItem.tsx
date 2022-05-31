@@ -33,6 +33,8 @@ interface NftData {
     tokenPrice:number,
     royaltyFee:number|string,
     Currency:number|string
+    previousOwner:string,
+    currentOwner:string
 }
 
 
@@ -125,7 +127,7 @@ const CreateItem = () => {
                 // console.log(txn , "txnnn")
                 
                 
-                Api.post(`/createNft/${uuid}/${currentAccount}`, data).then((response) => {
+                Api.post(`/createNft/${uuid}`, data).then((response) => {
                     console.log(response, "resssssssssssssss");
                     navigate(-1)
                 })
@@ -150,6 +152,8 @@ const CreateItem = () => {
             tokenDescription:res.Discription,
             tokenPrice:0,
             url:fileUrl,
+            previousOwner:"0x0",
+            currentOwner:currentAccount,
             tokenStandard:"ERC-721",
             blockchain:"Ethereum",
             tokencreator:currentAccount,
