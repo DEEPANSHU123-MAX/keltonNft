@@ -2,20 +2,17 @@ import axios from 'axios';
 import Cookies from "js-cookie";
 
 
-const baseURL=`https://e24e-103-93-251-38.ngrok.io`
+const baseURL=`https://54c1-180-151-230-178.ngrok.io`
 
 const AxiosInstance = axios.create({
   baseURL,
   
 });
 
-
-
-
 const refresh = async (refreshToken: any) => {
   console.log(refreshToken);
 
-   axios.post(`${baseURL}/generateToken`, { token: refreshToken })
+   axios.post(`${baseURL}/token/generate`, { token: refreshToken })
           .then(response => {
             console.log(response , "resssssssssssssssssss")
               if (!response.data) {

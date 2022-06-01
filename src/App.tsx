@@ -22,13 +22,13 @@ const AppRouter : React.FC = ()=>(
         <Header />
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="/Create" element={<Create/>}/>
+                <Route path="/" element={<Create/>}/>
 
-                <Route path="/Create/:chainId" element={<Create/>}/>
+                <Route path="/Create" element={<Create/>}/>
                 <Route path="/chainSelect" element={<ChainSelect/>}/>
                
                 <Route path="/CreateItem/:uuid/:collectionOwner" element={<CreateItem/>}/>
-                <Route path="/CreateCollection/:chainId" element={<CreateCollection/>}/>
+                <Route path="/collection/create/:chainId" element={<CreateCollection/>}/>
                 <Route path="/EditCollection/:uuid/:collectionOwner" element={<EditCollection/>}/>
                 <Route path="/CollectionInfo/:uuid" element={<CollectionInfo/>}/>
                 <Route path="/Sellnft/:nftId" element={<SellNft />}/>

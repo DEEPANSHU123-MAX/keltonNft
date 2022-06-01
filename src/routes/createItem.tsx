@@ -127,7 +127,7 @@ const CreateItem = () => {
                 // console.log(txn , "txnnn")
                 
                 
-                Api.post(`/createNft/${uuid}`, data).then((response) => {
+                Api.post(`/nft/${uuid}`, data).then((response) => {
                     console.log(response, "resssssssssssssss");
                     navigate(-1)
                 })

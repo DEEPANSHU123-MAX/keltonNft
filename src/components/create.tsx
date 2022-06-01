@@ -76,7 +76,7 @@ const Create = () => {
         if (currentAccount ) {
             
            
-            Api.get(`/collections/${currentAccount}`).then((response) => {
+            Api.get(`/collections/user/${currentAccount}`).then((response) => {
                 console.log(response.data, "response userdata")
             setCollectionData(response.data);
             

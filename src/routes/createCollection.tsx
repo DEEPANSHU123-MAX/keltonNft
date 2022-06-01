@@ -127,7 +127,7 @@ function CreateCollection() {
 
     console.log(contractTxn.address, "contractTxnnnnnnnnnnnnnn");
 
-    Api.post(`/createCollection/${currentAccount}/${chainId}`, data).then((response) => {
+    Api.post(`/collection/create/${chainId}`, data).then((response) => {
       console.log(response, "resssssssssssssss");
       Navigate(`/Create/${chainId}`);
     });

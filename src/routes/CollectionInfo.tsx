@@ -46,7 +46,7 @@ const CollectionInfo = () => {
 
 
     const DeleteCollection  =  () : any  => {
-      Api.delete(`/collection/${uuid}/${currentAccount}`).then((response) => {
+      Api.delete(`/collection/${uuid}`).then((response) => {
         
         console.log(response, "resssssssssssssss");
         alert("Collection is deleted");
@@ -58,7 +58,7 @@ const GetCollectionData =  () : any  => {
   if (currentAccount ) {
       
       console.log(uuid , "params destrucutre")
-      Api.get(`/collectionInfo/${uuid}`).then((response) => {
+      Api.get(`/collection/${uuid}`).then((response) => {
           console.log(response.data[0], "response userdata..........")
       setCollectionData(response.data[0]);
       setNftData(response.data[0].Nfts)
@@ -104,7 +104,7 @@ console.log(collectionData , "colllectttttttt")
                             <br/>
                             <p className='text'> Category:- {collectionData.category} <br/></p>
 
-                            <Button className='btn-1' href={`/EditCollection/${collectionData.uuid}/${currentAccount}`}>Edit Collection Info</Button>
+                            <Button className='btn-1' href={`/collection/${collectionData.uuid}`}>Edit Collection Info</Button>
                             <Button className='btn-1' onClick={DeleteCollection}>  Delete   Collection   Info</Button>
                                
 
@@ -114,7 +114,7 @@ console.log(collectionData , "colllectttttttt")
                            
 
                 </div>}
-                <Button className='btn-2' href={`/CreateItem/${uuid}/${currentAccount}`}> Add Item to collection</Button>
+                <Button className='btn-2' href={`/nft/${uuid}`}> Add Item to collection</Button>
                 <div>
             {nftData ? 
             <div>
