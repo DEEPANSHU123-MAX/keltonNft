@@ -10,7 +10,7 @@ import MyNFT from './routes/MyNft';
 import SellNft from './routes/sellNft';
 import CreateCollection from './routes/createCollection';
 import Create from './components/create';
-// import CollectionInfo from './routes/CollectionInfo';
+
 import PrivateRoute from './routes/PrivateRoute';
 import EditCollection from './routes/EditCollection';
 import form from './components/forms/createItemForm';
@@ -23,15 +23,15 @@ const AppRouter : React.FC = ()=>(
         <Header />
             <Routes>
                 <Route path="/" element={<Home/>} />
-                <Route path="/Create" element={<Create/>}/>
+                <Route path="/" element={<Create/>}/>
 
-                <Route path="/Create/:chainId" element={<Create/>}/>
+                <Route path="/Create" element={<Create/>}/>
                 <Route path="/chainSelect" element={<ChainSelect/>}/>
                
                 <Route path="/CreateItem/:uuid/:collectionOwner" element={<CreateItem/>}/>
-                <Route path="/CreateCollection/:chainId" element={<CreateCollection/>}/>
-                <Route path="/EditCollection/:uuid/:collectionOwner" element={<EditCollection/>}/>
-                {/* <Route path="/CollectionInfo/:uuid" element={<CollectionInfo/>}/> */}
+                <Route path="/collection/create/:chainId" element={<CreateCollection/>}/>
+                <Route path="/EditCollection/:uuid" element={<EditCollection/>}/>
+                <Route path="/CollectionInfo/:uuid" element={<CollectionInfo/>}/>
                 <Route path="/Sellnft/:nftId" element={<SellNft />}/>
                 <Route path="/MyNFT" element={<PrivateRoute><MyNFT/></PrivateRoute>}/>
                 <Route path="/profile" element={<MyProfile/>}/>

@@ -1,19 +1,17 @@
 import React from 'react'
-import { MDBCard, MDBCardBody, MDBCardTitle, MDBCardText, MDBBtn, MDBRipple, MDBCardOverlay, MDBCardImage } from 'mdb-react-ui-kit';
 import "../CSS/collectionInfo.css"
 import { useEffect, useState } from "react";
 import Api from "../Api/api";
 import { checkWalletIsConnected, connectWalletHandler } from "../components/LoadBlockchain";
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
-import "../App.css"
+import { Card, Button, Container, Row } from "react-bootstrap";
+
 import { useParams } from "react-router-dom";
 
 
 const CollectionInfo = () => {
     const [currentAccount, setCurrentAccount] = useState<any>(null);
     const [collectionData, setCollectionData] =useState<null | string[]>([]);
-     const [nftData, setNftData] =useState<null | string[]>([]);
-    
+     const [nftData, setNftData] = useState<null | string[]>([]);
     let { uuid } = useParams();
 
 
@@ -27,7 +25,6 @@ const CollectionInfo = () => {
 
         accountChanged();
         GetCollectionData()
-       
        
     }, [currentAccount])
 
@@ -47,25 +44,30 @@ const CollectionInfo = () => {
     }
 
 
-
-
-    const GetCollectionData = (): any => {
-        if (currentAccount) {
-            let id: string = currentAccount.slice(2,)
-            console.log(id, "wallet address user data ")
-
-            console.log(uuid, "params destrucutre")
-            Api.get(`/collectionInfo/${uuid}`).then((response) => {
-                console.log(response.data[0].Nfts, "response userdata..........")
-                 
-                setCollectionData(response.data[0]);
-                setNftData(response.data[0].Nfts)
-
-            })
-
-        }
+    const DeleteCollection  =  () : any  => {
+      Api.delete(`/collection/${uuid}`).then((response) => {
+        
+        console.log(response, "resssssssssssssss");
+        alert("Collection is deleted");
+        window.location = '/create';
+    })
     }
-    console.log(collectionData, "colllectttttttt")
+
+const GetCollectionData =  () : any  => {
+  if (currentAccount ) {
+      
+      console.log(uuid , "params destrucutre")
+      Api.get(`/collection/${uuid}`).then((response) => {
+          console.log(response.data[0], "response userdata..........")
+      setCollectionData(response.data[0]);
+      setNftData(response.data[0].Nfts)
+      console.log(response.data[0].Nfts, "response nfts")
+      })
+      
+  }
+}
+console.log(collectionData , "colllectttttttt")
+
 
     const accountChanged: any = async () => {
         const { ethereum } = window;
@@ -83,93 +85,88 @@ const CollectionInfo = () => {
     }
 
     const ShowCollectionData = () => {
+      
         return (
             <div >
 
-                {collectionData && <div>
-
-                    <MDBCard >
-                        {/* <MDBCardImage overlay src='https://mdbootstrap.com/img/new/slides/041.webp' alt='...' /> */}
-
-                      
-
-
-                            <div className='card-body'>
-                                <MDBCardImage src={collectionData.Url } className="bg" />
-                            </div>
-
-                            <p className='white'>Collection Name :- {collectionData.collectionName}</p>
-
-                            <p className='white'>
-                                Description :- {collectionData.collectionDescription}
-                            </p>
-
-                            <p className='white'> Category :- {collectionData.category} </p>
-
-                    </MDBCard>
-
-                            <div className='btn'>
-                                <MDBBtn href={`/EditCollection/${collectionData.uuid}/${currentAccount}`}>Edit Collection Info</MDBBtn>
-                                <MDBBtn href='#'>Delete Collection Info</MDBBtn>
-                            </div>
-
-                </div>
-                  }
-
+                {collectionData && <div >
                   
+                <div className='card-body'>
+                                <img style ={{ width: '45rem' }} src={collectionData.Url} />
+                            
+
+                            <p className='text'> Name:- {collectionData.collectionName}</p>
+                            <br/>
+                            <p className='text'>
+                                Description:- {collectionData.collectionDescription}
+                            </p>
+                            <br/>
+                            <p className='text'> Category:- {collectionData.category} <br/></p>
+
+                            <Button className='btn-1' href={`/EditCollection/${collectionData.uuid}`}>Edit Collection Info</Button>
+                            <Button className='btn-1' onClick={DeleteCollection}>  Delete   Collection   Info</Button>
+                               
+
+                            </div>
+                           
+                              
+                            
+
+                </div>}
+                <Button className='btn-2' href={`/CreateItem/${collectionData.uuid}/${collectionData.collectionOwner}`}> Add Item to collection</Button>
+                <div>
+            {nftData ? 
+            <div>
+              <h1> NFTs in this collection </h1>
+                <Container >
+                    <Row>
+                        {nftData.map((nft: any) => {
+                            
+                            let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}`
+                            return (
+                                <Card className="nft-card" key={nft.id} style={{ width: '35rem' }}>
+                                      <div className='card-body'>
+                                      
+                        </div>
+
+                                    <Card.Link style={{ textDecoration: 'none' }} href={link}> <Card.Img variant="top" src={nft.url} /></Card.Link>
+                                    <Card.Body className="card-body">
+                                        <Card.Title><p style={{color: 'white'}}>{nft.itemName}</p></Card.Title>
+                                        <Card.Title><p>{nft.category}</p></Card.Title>
+                                        <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Item info</Button></Card.Link>
+                                    </Card.Body>
+                                </Card>
+                            )
+                        })}
+                    </Row>
+                </Container>
+              </div>:<div> <h1>No NFTs to show</h1></div>
+            }
+
+        </div>
             </div>
         )
 
     }
 
-   const showNftData = ()=>{
-       return (
-           <div>
-                 {nftData && <div>
-                    <Container >
-                        <Row>
-                              {nftData.map((nft: any) => {
-                           
-                                  return(
-                               
-                               
-                                    <Card className="nft-card" key={nft.id} style={{ width: '35rem' }}>
-                                        <Card.Link style={{ textDecoration: 'none' }} > <Card.Img variant="top" src={nft.url} /></Card.Link>
-                                        <Card.Body className="card-body">
-                                            <Card.Title><p>{nft.itemName}</p></Card.Title>
-                                            <Card.Title><p>{nft.tokenDescription}</p></Card.Title>
-                                            {/* <Card.Link style={{ textDecoration: 'none' }} href={link}><Button variant="primary">Add Item</Button></Card.Link> */}
-                                        </Card.Body>
-                                    </Card>
-                                        )
+   
 
-                              })}
-                        
-                           
-                        </Row>
-                    </Container>
+   
+        
+ 
 
-                </div>}
+return (
+    <div>
+        {ConnectWalletButton()}
+        <br />
+        <br />
+        <br />
+        {currentAccount ? ShowCollectionData() : "First connect your wallet to see your collection"}
+        
+        
+    </div>
 
-
-           </div>
-       )
-   }
-
-    
-
-    return (
-        <div>
-            {ConnectWalletButton()}
-            <br />
-            <br />
-            <br />
-            {currentAccount ? ShowCollectionData() : "First connect your wallet to see your collection"}
-            {currentAccount ? showNftData() : "First connect your wallet to see your collection"}
-            
-        </div>
-
-    )
+)
 
 }
 

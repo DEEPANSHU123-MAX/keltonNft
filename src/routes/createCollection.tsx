@@ -53,7 +53,7 @@ function CreateCollection() {
 
   const networkChanged = (chainId : any) => {
     console.log({ chainId });
-    Navigate(`/CreateCollection/${chainId}`)
+    Navigate(`/collection/create/${chainId}`)
   };
 
   useEffect(() => {
@@ -86,7 +86,7 @@ function CreateCollection() {
     let data = new FormData();
     
     data.append("file", file);
-
+    
     try {
       axios
         .post(url, data, {
@@ -132,9 +132,9 @@ function CreateCollection() {
 
     console.log(contractTxn.address, "contractTxnnnnnnnnnnnnnn");
 
-    Api.post(`/createCollection/${currentAccount}/${chainId}`, data).then((response) => {
+    Api.post(`/collection/create/${chainId}`, data).then((response) => {
       console.log(response, "resssssssssssssss");
-      Navigate(`/Create/${chainId}`);
+      Navigate(`/Create`);
     });
     console.log(data);
   };

@@ -50,7 +50,7 @@ function EditCollection() {
          accountChanged();
          
 
-         Api.get(`/collectionInfo/${uuid}`).then((response)=>{
+         Api.get(`/collection/${uuid}`).then((response)=>{
             setFileUrl(response.data[0].Url);
             setName(response.data[0].collectionName);
             setCategoryValue(response.data[0].category);
@@ -131,13 +131,14 @@ function EditCollection() {
             collectionDescription:e.target.description.value,
             Url:fileUrl,
             category:categoryValue,
-            collectionOwner:currentAccount.slice(2,),
+            collectionOwner:currentAccount,
             
            
             
     };
-    Api.patch('/UpdateCollection', data).then((response) => {
+    Api.patch(`/collection/${uuid}/${currentAccount}`, data).then((response) => {
         console.log(response, "resssssssssssssss");
+        
         navigate(-1);
     })
     console.log(data);

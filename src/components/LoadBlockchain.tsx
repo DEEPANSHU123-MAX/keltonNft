@@ -80,9 +80,9 @@ export const connectWalletHandler = async () => {
     console.log("Found an account! Address: ", accounts[0]);
 
 
-    let expiryTime = new Date(new Date().getTime() + 200 * 1000);
+    let expiryTime = new Date(new Date().getTime() + 20 *60 * 1000);
      
-    Api.get(`/login/${accounts[0]}`).then((response) => {
+    Api.get(`/user/login/${accounts[0]}`).then((response) => {
      console.log("inside login")
 
       const { accessToken, refreshToken } = response.data;

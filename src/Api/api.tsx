@@ -15,20 +15,17 @@ import Cookies from "js-cookie";
 //   return accessToken;
 
 
-const baseURL=`https://56b0-103-93-251-38.ngrok.io`
+const baseURL=`https://8847-103-93-251-38.ngrok.io`
 
 const AxiosInstance = axios.create({
   baseURL,
   
 });
 
-
-
-
 const refresh = async (refreshToken: any) => {
-  console.log(refreshToken);
+  console.log(refreshToken , "refresh..................");
 
-   axios.post(`${baseURL}/generateToken`, { token: refreshToken })
+   axios.post(`${baseURL}/token/generate`, { token: refreshToken })
           .then(response => {
             console.log(response , "resssssssssssssssssss")
               if (!response.data) {
@@ -51,9 +48,13 @@ const refresh = async (refreshToken: any) => {
 const hasAccess = async (accessToken : any, refreshToken : any) => {
   if (!refreshToken) return null;
 
+  // console.log(accessToken ,"access")
+
 
 
   if (!accessToken) {
+
+    // console.log("inside if")
       // generate new accessToken
       accessToken = await refresh(refreshToken);
       

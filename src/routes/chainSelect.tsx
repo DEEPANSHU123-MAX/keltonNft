@@ -69,7 +69,7 @@ const changeNetwork = async ({ networkName, setError }:Props) => {
       ]
     });
     const chainId=`0x${Number(80001).toString(16)}`;
-    Navigate(`/CreateCollection/${chainId}`)
+    Navigate(`/collection/create/${chainId}`)
     
   } catch (err) {
     setError(err.message);
@@ -92,7 +92,7 @@ const changeNetworkRinkeyby = async ({ networkName, setError  }:Props) => {
       
     });
     const chainId =`0x${Number(4).toString(16)}`;
-    Navigate(`/CreateCollection/${chainId}`)
+    Navigate(`/collection/create/${chainId}`)
   } catch (err) {
     setError(err.message);
   }

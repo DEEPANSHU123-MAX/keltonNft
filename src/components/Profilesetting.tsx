@@ -66,7 +66,7 @@ const Profilesettings = () => {
         data['password'] = (e.target.pass.value == ''?userData.password : e.target.pass.value);
         data['website'] = (e.target.web.value == ''?userData.website : e.target.web.value);
         data['walletAddress'] = (account == '' ?userData.walletAddress:account );
-        Api.patch(`/editUser/${userData.walletAddress}`,data).then((response) => {
+        Api.patch(`/user/edit`,data).then((response) => {
             alert("Profile updated Successfully")
             window.location = '/profile';
                 })

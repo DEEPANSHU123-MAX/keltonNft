@@ -1,28 +1,52 @@
 .card-body{
+    background-image: url("https://mdbcdn.b-cdn.net/img/new/slides/017.webp");
     display: flex;
+    background-repeat: no-repeat;
     justify-content: center;
+   
     align-items: center;
     border: none;
     
 
-    
 }
 
-.btn{
+
+.btn-1{
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    margin-right : 50px;
+    background-color: #10006d; 
     border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    
+    
 }
 
-.white{
-  color : white;
-}
-
-.text-body {
+.text {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     border: none;
+    color : white;
 
+}
+.btn-2{
+    display: flex;
+    justify-content: flex-end;
+    margin : 50px;
+    background-color: #10006d; 
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    
+    
 }
