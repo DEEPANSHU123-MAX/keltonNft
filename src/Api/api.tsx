@@ -1,8 +1,21 @@
 import axios from 'axios';
 import Cookies from "js-cookie";
+// import jwtDecode from 'jwt-decode';
 
 
-const baseURL=`https://e24e-103-93-251-38.ngrok.io`
+
+// let decodedToken :any = jwtDecode(accessToken);
+// console.log("Decoded Token", decodedToken);
+// let currentDate = new Date();
+
+// // JWT exp is in seconds
+// if (decodedToken.exp * 1000 < currentDate.getTime()) {
+//   accessToken = await refresh(refreshToken);
+
+//   return accessToken;
+
+
+const baseURL=`https://56b0-103-93-251-38.ngrok.io`
 
 const AxiosInstance = axios.create({
   baseURL,
@@ -25,6 +38,7 @@ const refresh = async (refreshToken: any) => {
               } else {
                   const { accessToken } = response.data;
                   Cookies.set("access", accessToken);
+                 
                   return accessToken;
               }
           });
@@ -37,10 +51,12 @@ const refresh = async (refreshToken: any) => {
 const hasAccess = async (accessToken : any, refreshToken : any) => {
   if (!refreshToken) return null;
 
+
+
   if (!accessToken) {
       // generate new accessToken
       accessToken = await refresh(refreshToken);
-      console.log(accessToken,"accesssssssss")
+      
       return accessToken;
   }
 
@@ -57,6 +73,7 @@ const hasAccess = async (accessToken : any, refreshToken : any) => {
 
   let accessToken = Cookies.get("access");
   let refreshToken = Cookies.get("refresh");
+ 
 
 
   const accessTokenvalue = await hasAccess(accessToken, refreshToken);

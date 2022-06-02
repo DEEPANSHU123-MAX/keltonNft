@@ -15,6 +15,7 @@ import PrivateRoute from './routes/PrivateRoute';
 import EditCollection from './routes/EditCollection';
 import form from './components/forms/createItemForm';
 import ChainSelect from './routes/chainSelect';
+import CollectionInfo from './routes/CollectionInfo';
 
 const AppRouter : React.FC = ()=>(
     <BrowserRouter>

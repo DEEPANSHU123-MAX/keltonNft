@@ -14,25 +14,23 @@ const schema = yup.object().shape({
     .test('required', "You need to provide a file", (value) =>{
       return value && value.length
     } ),
-    
-    Name: yup.string().required(),
+    ContractName: yup.string().required(),
+    ContractSymbol: yup.string().required(),
+    CollectionName: yup.string().required(),
     Discription: yup.string().required(),
     RoyalityFee: yup.number().positive().typeError('you must specify a number'),
     select: yup.string().required()
  
 });
 
-
-
-
 type Props = {
   uploadHandler: Function;
   fileHandler : Function;
-  handleShow : Function;
+  
 
 };
 
-function FormComponent({uploadHandler,fileHandler,handleShow}:Props) {
+function CollectionFormComponent({uploadHandler,fileHandler}:Props) {
   const { register, handleSubmit,setValue, formState:{ errors } } = useForm({
     resolver: yupResolver(schema),
   });
@@ -47,7 +45,7 @@ function FormComponent({uploadHandler,fileHandler,handleShow}:Props) {
   }
   return (
     <div className="Form">
-      <div className="title">Create new Item</div>
+      <div className="title">Create new Collection</div>
       <div className="inputs">
         <form  className="create-page-form"  onSubmit={handleSubmit(submitForm)}>
         <label>Image, Video, Audio, or 3D Model<span style={{ color: 'red' }} >*</span></label>
@@ -62,17 +60,52 @@ function FormComponent({uploadHandler,fileHandler,handleShow}:Props) {
           />
           <p> {errors.File?.message} </p>
 
-         <label> Name<span style={{ color: 'red' }} >*</span></label>
+          <label> ContractName<span style={{ color: 'red' }} >*</span></label>
           <input  className="form-control"
             type="text"
            
-            {...register("Name")}
-            placeholder="Name..."
+            {...register("ContractName")}
+            placeholder="ContractName..."
            
           />
-          <p> {errors.Name?.message} </p>
+          <p> {errors.ContractName?.message} </p>
 
-          <label>Discription<span style={{ color: 'red' }} >*</span></label>
+          <label>ContractSymbol<span style={{ color: 'red' }} >*</span></label>
+          <input  className="form-control"
+            type="text"
+           
+            {...register("ContractSymbol")}
+            placeholder="ContractSymbol..."
+           
+          />
+          <p> {errors.ContractSymbol?.message} </p>
+
+         <label>CollectionName<span style={{ color: 'red' }} >*</span></label>
+          <input  className="form-control"
+            type="text"
+           
+            {...register("CollectionName")}
+            placeholder="CollectionName..."
+           
+          />
+          <p> {errors.CollectionName?.message} </p>
+
+
+          <label>Choose category for Collection<span style={{ color: 'red' }} >*</span></label>
+          <select className="form-control"
+          {...register("select")}
+          onChange={(e) => setValue('select', e.target.value, { shouldValidate: true })} // Using setValue
+        >
+           <option value="">Select...</option>
+           <option value="Art">Art</option>
+            <option value="Sports">Sports</option>
+            <option value="Gaming">Gaming</option>
+            <option value="Photography">Photography</option>
+            <option value="Entertainment">Entertainment</option>
+        </select>
+        {<p>{errors.select?.message}</p>}
+
+          <label>CollectionDiscription<span style={{ color: 'red' }} >*</span></label>
           <textarea className="mb-3"
             
            
@@ -91,20 +124,11 @@ function FormComponent({uploadHandler,fileHandler,handleShow}:Props) {
           <p> {errors.RoyalityFee?.message} </p>
           
 
-          <label>Select the currency<span style={{ color: 'red' }} >*</span></label>
-          <select className="form-control"
-          {...register("select")}
-          onChange={(e) => setValue('select', e.target.value, { shouldValidate: true })} // Using setValue
-        >
-           <option value="">Select...</option>
-          <option value="0">Ether</option>
-          <option value="1">other</option>
-          
-        </select>
+       
 
         
 
-        {<p>{errors.select?.message}</p>}
+       
           
           <Button type="submit" id="submit">create</Button> 
         </form>
@@ -118,4 +142,4 @@ function FormComponent({uploadHandler,fileHandler,handleShow}:Props) {
   
 }
 
-export default FormComponent;
+export default CollectionFormComponent;

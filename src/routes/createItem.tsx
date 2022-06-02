@@ -150,7 +150,7 @@ const CreateItem = () => {
             tokenDescription:res.Discription,
             tokenPrice:0,
             url:fileUrl,
-            tokenStandard:"ERC-721",
+            tokenStandard:"Erc721",
             blockchain:"Ethereum",
             tokencreator:currentAccount,
             forSale:false,

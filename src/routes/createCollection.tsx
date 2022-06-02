@@ -13,6 +13,8 @@ import {
   deployContract,
 } from "../components/LoadBlockchain";
 
+import CollectionFormComponent from '../components/forms/createCollectionForm';
+
 interface NftData {
   collectionName: string;
   collectionDescription: string;
@@ -77,9 +79,12 @@ function CreateCollection() {
     });
   };
 
-  const fileHandler = async (e: any) => {
-    const file = e.target.files[0];
+  const fileHandler = async (file: any) => {
+    console.log(file, "imageeeee");
+        
+       
     let data = new FormData();
+    
     data.append("file", file);
 
     try {
@@ -103,22 +108,24 @@ function CreateCollection() {
     }
   };
 
-  const uploadHandler = async (e: any) => {
-    e.preventDefault();
+  const uploadHandler = async (res:any) => {
+    // e.preventDefault();
+    console.log(res, "ressss")
+    
 
     const contractTxn = await deployContract(
-      e.target.contractName.value,
-      e.target.contractSymbol.value
+      res.ContractName,
+      res.ContractSymbol
     );
 
     let data: NftData = {
-      collectionName: e.target.item.value.trim(),
-      collectionDescription: e.target.description.value,
+      collectionName: res.CollectionName,
+      collectionDescription: res.Discription,
       Url: fileUrl,
-      category: categoryValue,
+      category: res.select,
       collectionOwner: currentAccount,
-      contractName: e.target.contractName.value,
-      contractSymbol: e.target.contractSymbol.value,
+      contractName: res.ContractName,
+      contractSymbol: res.ContractSymbol,
       contractAddress: contractTxn.address,
       
     };
@@ -140,99 +147,10 @@ function CreateCollection() {
         integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
         crossorigin="anonymous"
       ></link>
-      <h1>Create New collection</h1>
-      <Form className="create-page-form" onSubmit={uploadHandler}>
-        <Form.Group className="mb-3">
-          <Form.Label>
-            Image, Audio, or 3D Model
-            <span style={{ color: "red" }}>*</span>
-          </Form.Label>
-          <Form.Control
-            type="file"
-            placeholder="Collection Image"
-            onChange={fileHandler}
-          />
-        </Form.Group>
-        <Form.Text className="text-muted">
-          <span style={{ color: "red" }}>*</span>Required fields
-        </Form.Text>
-        <Form.Group className="mb-3">
-          <Form.Label>
-            Contract Name<span style={{ color: "red" }}>*</span>
-          </Form.Label>
-          <Form.Control
-            type="text"
-            name="contractName"
-            placeholder="Collection name"
-            required
-          />
-        </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>
-            Contract Symbol<span style={{ color: "red" }}>*</span>
-          </Form.Label>
-          <Form.Control
-            type="text"
-            name="contractSymbol"
-            placeholder="Collection name"
-            required
-          />
-        </Form.Group>
+    <CollectionFormComponent uploadHandler={uploadHandler} fileHandler={fileHandler} />
 
-        <Form.Group className="mb-3">
-          <Form.Label>
-            {" "}
-            Collection Name<span style={{ color: "red" }}>*</span>
-          </Form.Label>
-          <Form.Control
-            type="text"
-            name="item"
-            placeholder="Collection name"
-            required
-          />
-        </Form.Group>
-        <br />
-        <label>
-          Choose category for collection:
-          <select
-            value={categoryValue}
-            onChange={(e) => setCategoryValue(e.target.value)}
-          >
-            <option value="Art">Art</option>
-            <option value="Sports">Sports</option>
-            <option value="Gaming">Gaming</option>
-            <option value="Photography">Photography</option>
-            <option value="Entertainment">Entertainment</option>
-          </select>
-        </label>
-
-        <br />
-        <br />
-
-        <Form.Group className="mb-3">
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            style={{ padding: "10px 10px 50px 10px" }}
-            type="text"
-            name="description"
-            placeholder="Provide a detailed description of your collection"
-          />
-          <Form.Text className="text-muted">
-            Discription for your Nft collection
-          </Form.Text>
-        </Form.Group>
-        <hr />
-        <Button variant="primary" type="submit">
-          Create Collection
-        </Button>
-      </Form>
-
-      <br />
-      <br />
-      <br />
-      <br />
-    </div>
+      </div>
   );
 }
 
