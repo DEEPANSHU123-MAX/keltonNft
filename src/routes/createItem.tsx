@@ -8,7 +8,9 @@ import axios from "axios";
 import { Link  , useParams, useNavigate} from "react-router-dom";
 import Api from "../Api/api";
 import FormData from "form-data";
-import { checkWalletIsConnected, connectWalletHandler , mintNftHandler } from "../components/LoadBlockchain"
+import { ethers } from "ethers";
+import Web3 from "web3";
+import { checkWalletIsConnected, connectWalletHandler , mintNftHandler , tokenUriHandler } from "../components/LoadBlockchain"
 import Create from './createItem';
 import FormComponent from "../components/forms/createItemForm";
 
@@ -52,6 +54,7 @@ const CreateItem = () => {
     const[currencyValue, setcurrencyValue] = useState<any>("ETH")
     const handleClose  = () => setShow(false);
     const handleShow = () => setShow(true);
+    const{ethereum} = window;
 
 
     
@@ -97,7 +100,8 @@ const CreateItem = () => {
 
     const mintToken = async (hash : any , base : any , royalityFee :any , tokenCreator:any ) => {
         let txn = await mintNftHandler(hash, base ,  royalityFee ,tokenCreator  );
-        console.log(txn,"txn mint token")
+       
+        
         return txn;
     }
 
@@ -122,16 +126,27 @@ const CreateItem = () => {
 
                 console.log(data , "dataaaaaa");
 
-                let txn = await mintToken(jsonCid, "https://gateway.pinata.cloud/ipfs/" ,data.royaltyFee ,data.tokencreator );
-                console.log(txn , "-------")
+                let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/" ,data.royaltyFee ,data.tokencreator );
+                console.log(txn , "txnnnnnnn")
                 // console.log(txn , "txnnn")
-                
+
+                const provider = new ethers.providers.Web3Provider(ethereum)
+                 console.log(await provider.getTransactionReceipt(txn.hash) , "hashhhhhh")
+
+                //  var web3 = new Web3(Web3.givenProvider || 'ws://remotenode.com:8546');
+
+                //  web3.eth.getTransactionReceipt(txn.hash).then(function(data : any){
+                //     let transaction = data;
+                //     let logs = data.logs;
+                //     console.log(logs);
+                //     console.log(web3.utils.hexToNumber(logs[0].topics[3]) , "tokennnnnnn iidddddd");
+                // });
                 
                 Api.post(`/nft/${uuid}`, data).then((response) => {
                     console.log(response, "resssssssssssssss");
                     navigate(-1)
                 })
-                // console.log(txn,"txn")
+                console.log(txn,"txn")
                 
                 setTokenMinted(true);
                 console.log(tokenMinted,"hghghg")
@@ -145,7 +160,7 @@ const CreateItem = () => {
     const uploadHandler = async (res:any, e:any) => {
         console.log(res ,"dataaaa");
         handleShow();
-        
+        e.preventDefault();
        
         let data: NftData = {
             itemName:res.Name,

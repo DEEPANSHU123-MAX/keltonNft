@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Cookies from "js-cookie";
+import { useNavigate } from 'react-router-dom';
 // import jwtDecode from 'jwt-decode';
 
 
@@ -14,8 +15,11 @@ import Cookies from "js-cookie";
 
 //   return accessToken;
 
+const navigate = useNavigate();
 
-const baseURL=`https://8847-103-93-251-38.ngrok.io`
+
+
+const baseURL=`https://38bc-103-93-251-39.ngrok.io`
 
 const AxiosInstance = axios.create({
   baseURL,
@@ -50,11 +54,11 @@ const hasAccess = async (accessToken : any, refreshToken : any) => {
 
   // console.log(accessToken ,"access")
 
-
+  console.log("inside if");
 
   if (!accessToken) {
 
-    // console.log("inside if")
+    console.log("inside if");
       // generate new accessToken
       accessToken = await refresh(refreshToken);
       
@@ -71,7 +75,7 @@ const hasAccess = async (accessToken : any, refreshToken : any) => {
  AxiosInstance.interceptors.request.use( async (config : any) => {
 
 
-
+  
   let accessToken = Cookies.get("access");
   let refreshToken = Cookies.get("refresh");
  
@@ -101,6 +105,16 @@ error => {
   Promise.reject(error)
 }
 )
+
+
+
+AxiosInstance.interceptors.response.use((response) => response, (error) => {
+  if (error.response.status === 401) {
+    console.log("please login again");
+    navigate('/')
+    
+  }
+});
 
 
 export default AxiosInstance;

@@ -11,14 +11,6 @@ import Cookies from "js-cookie";
 // const { BN, constants, expectEvent, expectRevert, balance, send, ether } = require("@openzeppelin/test-helpers");
 
 
-
-
- 
-
-
-
-
-
 export const deployContract = async (
   contractName: string,
   contractSymbol: string
@@ -268,10 +260,28 @@ export const mintNftHandler = async (
         
         tokenCreator
       );
+
+    
+      
+
+
       console.log(nftTxn, "nftttttttt");
 
       console.log("Mining... please wait");
-      await nftTxn.wait();
+      const reciept = await nftTxn.wait();
+     
+
+      
+    
+// nftContract.on("Transfer", (from, to, tokenId) => {
+//   console.log({
+//       from: from,
+//       to: to,
+//      tokenId,
+//   });
+// })
+
+    
 
       console.log(`Mined`);
       return nftTxn;
