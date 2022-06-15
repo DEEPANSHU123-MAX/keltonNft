@@ -42,7 +42,7 @@ interface NftData {
 
 
 const CreateItem = () => {
-    let{uuid} = useParams();
+    let{uuid , contractAddress} = useParams();
 
     let navigate = useNavigate();
     
@@ -98,8 +98,8 @@ const CreateItem = () => {
 
 
 
-    const mintToken = async (hash : any , base : any , royalityFee :any , tokenCreator:any ) => {
-        let txn = await mintNftHandler(hash, base ,  royalityFee ,tokenCreator  );
+    const mintToken = async (hash : any , base : any , royalityFee :any , tokenCreator:any ,contractAddress:any) => {
+        let txn = await mintNftHandler(hash, base ,  royalityFee ,tokenCreator  ,contractAddress);
        
         
         return txn;
@@ -126,21 +126,14 @@ const CreateItem = () => {
 
                 console.log(data , "dataaaaaa");
 
-                let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/" ,data.royaltyFee ,data.tokencreator );
+                let txn = await mintToken(response.data.IpfsHash, "https://gateway.pinata.cloud/ipfs/" ,data.royaltyFee ,data.tokencreator , contractAddress );
                 console.log(txn , "txnnnnnnn")
                 // console.log(txn , "txnnn")
 
-                const provider = new ethers.providers.Web3Provider(ethereum)
-                 console.log(await provider.getTransactionReceipt(txn.hash) , "hashhhhhh")
+                // const provider = new ethers.providers.Web3Provider(ethereum)
+                //  console.log(await provider.getTransactionReceipt(txn.hash) , "hashhhhhh")
 
-                //  var web3 = new Web3(Web3.givenProvider || 'ws://remotenode.com:8546');
-
-                //  web3.eth.getTransactionReceipt(txn.hash).then(function(data : any){
-                //     let transaction = data;
-                //     let logs = data.logs;
-                //     console.log(logs);
-                //     console.log(web3.utils.hexToNumber(logs[0].topics[3]) , "tokennnnnnn iidddddd");
-                // });
+                
                 
                 Api.post(`/nft/${uuid}`, data).then((response) => {
                     console.log(response, "resssssssssssssss");
@@ -160,7 +153,7 @@ const CreateItem = () => {
     const uploadHandler = async (res:any, e:any) => {
         console.log(res ,"dataaaa");
         handleShow();
-        e.preventDefault();
+        
        
         let data: NftData = {
             itemName:res.Name,

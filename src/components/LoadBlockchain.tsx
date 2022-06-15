@@ -145,14 +145,14 @@ export const transferTokenHandler = async (to: string, tokenId: any) => {
   }
 };
 
-export const priceChangeHandler = async (tokenId: any, price: any) => {
+export const priceChangeHandler = async (tokenId: any, price: any , contractAddress:any) => {
   try {
     const { ethereum } = window;
 
     if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
-      const nftContract = new ethers.Contract(address, abi, signer);
+      const nftContract = new ethers.Contract(contractAddress, abi, signer);
       let id = "0x" + tokenId.toString(16);
       let value = "0x" + price.toString(16);
       let txn = await nftContract.changeTokenPrice(id, value);
@@ -166,16 +166,16 @@ export const priceChangeHandler = async (tokenId: any, price: any) => {
   }
 };
 
-export const removeFromSaleHandler = async (tokenId: any) => {
+export const removeFromSaleHandler = async (tokenId: any , contractAddress:any) => {
   try {
     const { ethereum } = window;
 
     if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
-      const nftContract = new ethers.Contract(address, abi, signer);
+      const nftContract = new ethers.Contract(contractAddress, abi, signer);
       let id = "0x" + tokenId.toString(16);
-      let txn = await nftContract.removeTokenFromSale(id);
+      let txn = await nftContract.removeTokenFromSale(tokenId);
       await txn.wait();
       return txn;
     } else {
@@ -185,21 +185,22 @@ export const removeFromSaleHandler = async (tokenId: any) => {
     console.log(err);
   }
 };
-export const tokenUriHandler = async (tokenId: any) => {
+export const tokenUriHandler = async (tokenId: any , contractAddress:any) => {
   try {
     const { ethereum } = window;
 
     if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
-      const nftContract = new ethers.Contract(address, abi, signer);
+      const nftContract = new ethers.Contract(contractAddress, abi, signer);
       let id = "0x" + tokenId.toString(16);
       let uri = await nftContract.tokenURI(id);
       let owner = await nftContract.ownerOf(id);
       let saleStatus = await nftContract.isTokenForSale(id);
       let tokenPrice = await nftContract.getTokenPrice(id);
       let value = parseInt(tokenPrice._hex.slice(2));
-      return { address, uri, owner, saleStatus, value };
+      console.log(uri, saleStatus , value,"uri")
+      return { contractAddress, uri, owner, saleStatus, value };
     } else {
       console.log("Ethereum object does not exist");
     }
@@ -208,14 +209,14 @@ export const tokenUriHandler = async (tokenId: any) => {
   }
 };
 
-export const sellTokenHandler = async (tokenId: any, price: any) => {
+export const sellTokenHandler = async (tokenId: any, price: any , contractAddress:any) => {
   try {
     const { ethereum } = window;
 
     if (ethereum) {
       const provider = new ethers.providers.Web3Provider(ethereum);
       const signer = provider.getSigner();
-      const nftContract = new ethers.Contract(address, abi, signer);
+      const nftContract = new ethers.Contract(contractAddress, abi, signer);
       let id = "0x" + tokenId.toString(16);
       let value = "0x" + price.toString(16);
       let nftTxn = await nftContract.setTokenForSale(id, value);
@@ -234,7 +235,8 @@ export const mintNftHandler = async (
   tokenURI: string,
   baseURI: string,
   royalityFee: any,
-  tokenCreator: any
+  tokenCreator: any,
+  contractAddress:any
 ) => {
   try {
     const { ethereum } = window;
@@ -244,11 +246,8 @@ export const mintNftHandler = async (
       console.log(provider);
       const signer = provider.getSigner();
       console.log(signer, "signer");
-      let contractAdd = localStorage.getItem("contractAddress");
-
-       let accessAddress = contractAdd ? contractAdd : address;
-       console.log(typeof(accessAddress) ,"accesssss")
-      const nftContract = new ethers.Contract(accessAddress , abi, signer);
+       console.log(typeof(contractAddress) ,"accesssss")
+      const nftContract = new ethers.Contract(contractAddress , abi, signer);
       console.log(nftContract);
       console.log(royalityFee , "roayaltyyyyyy")
 

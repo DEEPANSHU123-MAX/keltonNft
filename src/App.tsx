@@ -28,11 +28,11 @@ const AppRouter : React.FC = ()=>(
                 <Route path="/Create" element={<Create/>}/>
                 <Route path="/chainSelect" element={<ChainSelect/>}/>
                
-                <Route path="/CreateItem/:uuid/:collectionOwner" element={<CreateItem/>}/>
+                <Route path="/CreateItem/:uuid/:collectionOwner/:contractAddress" element={<CreateItem/>}/>
                 <Route path="/collection/create/:chainId" element={<CreateCollection/>}/>
                 <Route path="/EditCollection/:uuid" element={<EditCollection/>}/>
                 <Route path="/CollectionInfo/:uuid" element={<CollectionInfo/>}/>
-                <Route path="/Sellnft/:nftId" element={<SellNft />}/>
+                <Route path="/Sellnft/:nftId/:contractAddress/:tokenId" element={<SellNft />}/>
                 <Route path="/MyNFT" element={<PrivateRoute><MyNFT/></PrivateRoute>}/>
                 <Route path="/profile" element={<MyProfile/>}/>
                 <Route path="/editprofile" element={<Profilesettings/>}/>

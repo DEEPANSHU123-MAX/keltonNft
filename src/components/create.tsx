@@ -110,7 +110,7 @@ const Create = () => {
      const ShowCollectionData  = () => {
        return(
         <div>
-         <h1> Your collection</h1>
+        
                 
                 {initialLoader ? (
                 <Modal show={initialLoader} >
@@ -123,13 +123,15 @@ const Create = () => {
                 </Modal.Body>
             </Modal>
                       ) :
-                        collectionData ? 
-        <div>
+                        (collectionData.length>0 ? 
+                        
+        (<div>
             <Container >
                 <Row>
+               
                     {collectionData.map((nft : any) => {
                         
-                        let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}`
+                        let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}/${nft.contractAddress}`
                         return (
                             <Card className="nft-card" key={nft.id} style={{ width: '30rem' }}>
                               <Card.Link style={{ textDecoration: 'none' }} href={`/CollectionInfo/${nft.uuid}`}> <Card.Img variant="top" src={nft.Url} /></Card.Link>
@@ -143,7 +145,7 @@ const Create = () => {
                     })}
                 </Row>
             </Container>
-            </div> : <h1>Please create your collection first</h1>}
+            </div>) : <h1>Please create your collection first</h1>)}
         
 
     </div>

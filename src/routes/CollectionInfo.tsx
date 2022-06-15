@@ -12,6 +12,7 @@ const CollectionInfo = () => {
     const [currentAccount, setCurrentAccount] = useState<any>(null);
     const [collectionData, setCollectionData] =useState<null | string[]>([]);
      const [nftData, setNftData] = useState<null | string[]>([]);
+     const[contractAddress , setContractAddress] = useState<string>('')
     let { uuid } = useParams();
 
 
@@ -60,6 +61,7 @@ const GetCollectionData =  () : any  => {
       Api.get(`/collection/${uuid}`).then((response) => {
           console.log(response.data[0], "response userdata..........")
       setCollectionData(response.data[0]);
+      setContractAddress(response.data[0].contractAddress)
       setNftData(response.data[0].Nfts)
       console.log(response.data[0].Nfts, "response nfts")
       })
@@ -84,7 +86,10 @@ console.log(collectionData , "colllectttttttt")
 
     }
 
+    
+
     const ShowCollectionData = () => {
+        let i =1;
       
         return (
             <div >
@@ -113,16 +118,17 @@ console.log(collectionData , "colllectttttttt")
                             
 
                 </div>}
-                <Button className='btn-2' href={`/CreateItem/${collectionData.uuid}/${collectionData.collectionOwner}`}> Add Item to collection</Button>
+                <Button className='btn-2' href={`/CreateItem/${collectionData.uuid}/${collectionData.collectionOwner}/${collectionData.contractAddress}`}> Add Item to collection</Button>
                 <div>
             {nftData ? 
             <div>
               <h1> NFTs in this collection </h1>
                 <Container >
                     <Row>
+                        
                         {nftData.map((nft: any) => {
                             
-                            let link = `/CreateItem/${nft.uuid}/${nft.collectionOwner}`
+                            let link = `/Sellnft/${nft.uuid}/${contractAddress}/${i++}`
                             return (
                                 <Card className="nft-card" key={nft.id} style={{ width: '35rem' }}>
                                       <div className='card-body'>

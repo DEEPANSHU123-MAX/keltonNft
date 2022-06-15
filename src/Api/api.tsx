@@ -1,6 +1,6 @@
 import axios from 'axios';
 import Cookies from "js-cookie";
-import { useNavigate } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 // import jwtDecode from 'jwt-decode';
 
 
@@ -15,11 +15,11 @@ import { useNavigate } from 'react-router-dom';
 
 //   return accessToken;
 
-const navigate = useNavigate();
 
 
 
-const baseURL=`https://38bc-103-93-251-39.ngrok.io`
+
+const baseURL=`https://d4ec-103-93-251-39.ngrok.io`
 
 const AxiosInstance = axios.create({
   baseURL,
@@ -111,9 +111,10 @@ error => {
 AxiosInstance.interceptors.response.use((response) => response, (error) => {
   if (error.response.status === 401) {
     console.log("please login again");
-    navigate('/')
+    <Navigate to="/" />
     
   }
+  
 });
 
 
